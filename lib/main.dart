@@ -29,6 +29,8 @@ class _MyAppState extends State<MyApp>{
         // body
         body: Column(
           children: [
+
+            // button to add the product
             Container(
               margin: EdgeInsets.all(10.0),
               child: RaisedButton(
@@ -40,6 +42,8 @@ class _MyAppState extends State<MyApp>{
                 },
               ),
             ),
+
+            // using map to return the list of product image
             Column(
               children: this._products.map( 
                 (element) => Card(
@@ -54,7 +58,6 @@ class _MyAppState extends State<MyApp>{
             ),
           ],
         ), 
-
 
       ),
     );
