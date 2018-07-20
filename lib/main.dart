@@ -34,7 +34,9 @@ class _MyAppState extends State<MyApp>{
               child: RaisedButton(
                 child: Text("Add Product"),
                 onPressed: (){
-                  
+                  setState( () {
+                    _products.add('Advance Food Tester');
+                  });
                 },
               ),
             ),
