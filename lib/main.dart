@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/products.dart';
 
 /// main to run the app
 void main(){
@@ -43,19 +44,8 @@ class _MyAppState extends State<MyApp>{
               ),
             ),
 
-            // using map to return the list of product image
-            Column(
-              children: this._products.map( 
-                (element) => Card(
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset('assets/food.jpg'),
-                      Text(element),
-                    ],
-                  ),
-                )
-              ).toList(),
-            ),
+
+
           ],
         ), 
 
