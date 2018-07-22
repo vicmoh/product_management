@@ -4,7 +4,7 @@ class Products extends StatelessWidget{
   // instances
   final List<String> products;
   // constructor
-  Products(this.products){
+  Products([this.products = const []]){
     print("[Products Widget] Constructor");
   }//end contructor
 

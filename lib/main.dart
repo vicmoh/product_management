@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget{
         ),
 
         // body
-        body: ProductManager("Food Tester"),
+        body: ProductManager(startingProduct: "Food Tester"),
 
       ),
     );

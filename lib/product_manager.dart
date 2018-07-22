@@ -3,9 +3,9 @@ import './products.dart';
 
 class ProductManager extends StatefulWidget{
   //dec instances
-  final String stratingProduct;
+  final String startingProduct;
   // constructor
-  ProductManager(this.stratingProduct){
+  ProductManager({this.startingProduct}){
     print("[productManager widget] createState()");
   }//end consrtuctor
 
@@ -24,7 +24,7 @@ class _ProductManagerState extends State<ProductManager>{
   @override
   void initState() {
     print("[productManager State] initState");
-    _products.add(widget.stratingProduct);
+    _products.add(widget.startingProduct);
     super.initState();
   }//end init state
 
