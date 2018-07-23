@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './products.dart';
+import './product_control.dart';
 
 class ProductManager extends StatefulWidget{
   //dec instances
@@ -41,15 +42,7 @@ class _ProductManagerState extends State<ProductManager>{
     return Column(children: [
       Container(
         margin: EdgeInsets.all(10.0),
-        child: RaisedButton(
-          color: Theme.of(context).primaryColor,
-          child: Text("Add Product"),
-          onPressed: (){
-            setState( () {
-              _products.add('Advance Food Tester');
-            });
-          },
-        ),
+        child: ProductControl(),
       ),
       Products(_products),
     ]);
