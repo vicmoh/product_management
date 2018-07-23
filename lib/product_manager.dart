@@ -48,7 +48,7 @@ class _ProductManagerState extends State<ProductManager>{
     return Column(children: [
       Container(
         margin: EdgeInsets.all(10.0),
-        child: ProductControl(),
+        child: ProductControl(_addProduct),
       ),
       Products(_products),
     ]);
