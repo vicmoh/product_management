@@ -8,9 +8,7 @@ class ProductControl extends StatelessWidget{
       color: Theme.of(context).primaryColor,
       child: Text("Add Product"),
       onPressed: (){
-        setState( () {
-          _products.add('Advance Food Tester');
-        });
+        
       },
     );
   }//end build

@@ -36,6 +36,12 @@ class _ProductManagerState extends State<ProductManager>{
     super.didUpdateWidget(oldWidget);
   }//end func
 
+  void _addProduct(String product){
+     setState( () {
+      _products.add(product);
+    });
+  }//end func
+
   @override
   Widget build(BuildContext context){
     // button to add the product
