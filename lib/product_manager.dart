@@ -19,6 +19,9 @@ class ProductManager extends StatefulWidget{
 
 class _ProductManagerState extends State<ProductManager>{
   // dec instances
+  // can use final and use method to add
+  // if using = const [] on right side
+  // when assigning, then list cannot be changed
   final List<String> _products = [];
 
   //recomend init state like this
