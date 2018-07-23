@@ -19,7 +19,7 @@ class ProductManager extends StatefulWidget{
 
 class _ProductManagerState extends State<ProductManager>{
   // dec instances
-  List<String> _products = ["Food Tester"];
+  final List<String> _products = [];
 
   //recomend init state like this
   @override
