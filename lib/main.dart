@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import './product_manager.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 
 /// main to run the app
 void main(){
-  debugPaintSizeEnabled = true;
+  // debugPaintSizeEnabled = true;
   // debugPaintBaselinesEnabled = true;
   // debugPaintPointersEnabled = true;
   runApp(new MyApp());

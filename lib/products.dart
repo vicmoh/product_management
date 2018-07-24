@@ -8,21 +8,24 @@ class Products extends StatelessWidget{
     print("[Products Widget] Constructor");
   }//end contructor
 
+  Widget _buildProductItem(BuildContext context, int index){
+    return Card(
+      child: Column(
+        children: <Widget>[
+          Image.asset('assets/food.jpg'),
+          Text(products[index]),
+        ],
+      ),
+    );
+  }//end func
+
   @override
   Widget build(BuildContext context) {
     print("[product widget] build");
     // using map to return the list of product image
-    return Column(
-      children: this.products.map( 
-        (element) => Card(
-          child: Column(
-            children: <Widget>[
-              Image.asset('assets/food.jpg'),
-              Text(element),
-            ],
-          ),
-        )
-      ).toList(),
+    return ListView.builder(
+      itemBuilder: _buildProductItem,
+      itemCount: products.length,
     );
   }//end build
 }//end class
