@@ -16,4 +16,3 @@ class ProductControl extends StatelessWidget{
     );
   }//end build
 }//end class
-}//end class
