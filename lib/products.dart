@@ -23,9 +23,9 @@ class Products extends StatelessWidget{
   Widget build(BuildContext context) {
     print("[product widget] build");
     // using map to return the list of product image
-    return ListView.builder(
+    return products.length > 0 ? ListView.builder(
       itemBuilder: _buildProductItem,
       itemCount: products.length,
-    );
+    ) : Center(child: Text("No product found, please add some"));
   }//end build
 }//end class

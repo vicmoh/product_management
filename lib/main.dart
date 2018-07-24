@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget{
         ),
 
         // body
-        body: ProductManager(startingProduct: "Food Tester"),
+        body: ProductManager(),
 
       ),
     );
