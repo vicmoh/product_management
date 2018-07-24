@@ -19,13 +19,20 @@ class Products extends StatelessWidget{
     );
   }//end func
 
+  Widget _buildProductList(){
+    Widget productCard = Center(child: Text("No product found, please add some"));
+    if(products.length > 0){
+      productCard = ListView.builder(
+        itemBuilder: _buildProductItem,
+        itemCount: products.length,
+      );
+    }//end if
+    return productCard;
+  }//end func
+
   @override
   Widget build(BuildContext context) {
     print("[product widget] build");
-    // using map to return the list of product image
-    return products.length > 0 ? ListView.builder(
-      itemBuilder: _buildProductItem,
-      itemCount: products.length,
-    ) : Center(child: Text("No product found, please add some"));
+    return _buildProductList(); 
   }//end build
 }//end class
