@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './pages/home.dart';
+import './pages/home_page.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
