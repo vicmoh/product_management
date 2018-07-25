@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './pages/products.dart';
 
 class Products extends StatelessWidget{
   // instances
@@ -19,7 +20,14 @@ class Products extends StatelessWidget{
             children: <Widget>[
               FlatButton(
                 child: Text("Details"),
-                onPressed: (){},
+                onPressed: () {
+                  return Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ProductPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

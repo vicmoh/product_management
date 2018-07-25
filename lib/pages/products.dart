@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Product extends StatelessWidget{
+class ProductPage extends StatelessWidget{
   @override
     Widget build(BuildContext context) {
       // TODO: implement build
@@ -9,7 +9,12 @@ class Product extends StatelessWidget{
           title: Text("Product Detail")
         ),
         body: Center(
-          child: Text("On the Product Page")
+          child: Column(children: <Widget>[
+            Text("Details"),
+            RaisedButton(child: Text('BACK'), 
+              onPressed: () => Navigator.pop(context),
+            )
+          ],)
         ),
       );
     }//end build
