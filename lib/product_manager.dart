@@ -4,7 +4,7 @@ import './product_control.dart';
 
 class ProductManager extends StatefulWidget{
   //dec instances
-  final String startingProduct;
+  final Map<String, String> startingProduct;
   // constructor
   ProductManager({this.startingProduct}){
     print("[productManager widget] createState()");
@@ -22,7 +22,7 @@ class _ProductManagerState extends State<ProductManager>{
   // can use final and use method to add
   // if using = const [] on right side
   // when assigning, then list cannot be changed
-  final List<String> _products = [];
+  final List<Map<String, String>> _products = [];
 
   //recomend init state like this
   @override
@@ -41,7 +41,7 @@ class _ProductManagerState extends State<ProductManager>{
     super.didUpdateWidget(oldWidget);
   }//end func
 
-  void _addProduct(String product){
+  void _addProduct(Map<String, String> product){
      setState( () {
       _products.add(product);
     });

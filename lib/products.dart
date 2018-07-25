@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import './pages/products.dart';
 
-class Products extends StatelessWidget{
+class Products extends StatelessWidget {
   // instances
-  final List<String> products;
+  final List<Map> products;
   // constructor
-  Products([this.products = const []]){
+  Products([this.products = const []]) {
     print("[Products Widget] Constructor");
-  }//end contructor
+  } //end contructor
 
-  Widget _buildProductItem(BuildContext context, int index){
+  Widget _buildProductItem(BuildContext context, int index) {
     return Card(
       child: Column(
         children: <Widget>[
-          Image.asset('assets/food.jpg'),
-          Text(products[index]),
+          Image.asset(products[index]['image']),
+          Text(products[index]['title']),
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -22,9 +22,10 @@ class Products extends StatelessWidget{
                 child: Text("Details"),
                 onPressed: () {
                   return Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => ProductPage(),
+                      builder: (BuildContext context) => ProductPage(
+                          products[index]['title'], products[index]['image']),
                     ),
                   );
                 },
@@ -34,22 +35,23 @@ class Products extends StatelessWidget{
         ],
       ),
     );
-  }//end func
+  } //end func
 
-  Widget _buildProductList(){
-    Widget productCards = Center(child: Text("No product found, please add some"));
-    if(products.length > 0){
+  Widget _buildProductList() {
+    Widget productCards =
+        Center(child: Text("No product found, please add some"));
+    if (products.length > 0) {
       productCards = ListView.builder(
         itemBuilder: _buildProductItem,
         itemCount: products.length,
       );
-    }//end if
+    } //end if
     return productCards;
-  }//end func
+  } //end func
 
   @override
   Widget build(BuildContext context) {
     print("[product widget] build");
-    return _buildProductList(); 
-  }//end build
-}//end class
+    return _buildProductList();
+  } //end build
+} //end class
