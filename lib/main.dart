@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './product_manager.dart';
+import './pages/home.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
@@ -20,18 +20,8 @@ class MyApp extends StatelessWidget{
         accentColor: Colors.deepPurple,
         brightness: Brightness.light,
       ),
-      home: Scaffold(
+      home: HomePage(),
 
-        // app bar
-        appBar: AppBar(
-          title: Text("Title"),
-          centerTitle: true,
-        ),
-
-        // body
-        body: ProductManager(),
-
-      ),
     );
   }//end build
 }//end class
