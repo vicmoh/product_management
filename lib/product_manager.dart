@@ -62,7 +62,7 @@ class _ProductManagerState extends State<ProductManager>{
         child: ProductControl(_addProduct),
       ),
       Expanded(
-        child: Products(_products, _deleteProduct),
+        child: Products(_products, deleteProduct: _deleteProduct),
       ),
     ]);
   }//end build

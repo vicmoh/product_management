@@ -6,7 +6,7 @@ class Products extends StatelessWidget {
   final List<Map> products;
   final Function deleteProduct;
   // constructor
-  Products(this.products, this.deleteProduct) {
+  Products(this.products, {this.deleteProduct}) {
     print("[Products Widget] Constructor");
   } //end contructor
 
