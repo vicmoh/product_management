@@ -47,6 +47,12 @@ class _ProductManagerState extends State<ProductManager>{
     });
   }//end func
 
+  void _deleteProduct(int index){
+    setState(() {
+      _products.removeAt(index);    
+    });
+  }//end func
+
   @override
   Widget build(BuildContext context){
     // button to add the product
@@ -56,7 +62,7 @@ class _ProductManagerState extends State<ProductManager>{
         child: ProductControl(_addProduct),
       ),
       Expanded(
-        child: Products(_products),
+        child: Products(_products, _deleteProduct),
       ),
     ]);
   }//end build
