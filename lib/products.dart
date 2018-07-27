@@ -29,7 +29,7 @@ class Products extends StatelessWidget {
                           products[index]['title'], products[index]['image']),
                     ),
                   ).then((bool value){
-                    if(value = true){
+                    if(value == true){
                       deleteProduct(index);
                     }//end if
                     print("push them:"+value.toString()); 
