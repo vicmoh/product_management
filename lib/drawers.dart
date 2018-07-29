@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import './pages/product_admin.dart';
+import './pages/products.dart';
 
 class MenuDrawer extends StatelessWidget{
 
-  Route _adminPageRoute(BuildContext context){
+  Route _pageRouteTo(Widget thePage, BuildContext context){
     return MaterialPageRoute(
-      builder: (context) =>
-      ProductAdminPage()
+      builder: (context) =>thePage
     );
   }//end route
 
@@ -24,7 +24,15 @@ class MenuDrawer extends StatelessWidget{
               title: Text("Manage Product"),
               onTap: () {
                 Navigator.pushReplacement(context, 
-                  _adminPageRoute(context)
+                  _pageRouteTo(ProductAdminPage(),context)
+                );
+              }, 
+            ),
+            ListTile(
+              title: Text("Products"),
+              onTap: () {
+                Navigator.pushReplacement(context, 
+                  _pageRouteTo(ProductsPage(), context)
                 );
               }, 
             ),
