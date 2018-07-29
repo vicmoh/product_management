@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import '.././product_manager.dart';
+import './product_admin.dart';
 
 class ProductsPage extends StatelessWidget {
+
+  Route _adminPageRoute(BuildContext context){
+    return MaterialPageRoute(
+      builder: (context) =>
+      ProductAdminPage()
+    );
+  }//end route
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +24,11 @@ class ProductsPage extends StatelessWidget {
             ),
             ListTile(
               title: Text("Manage Product"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, 
+                  _adminPageRoute(context)
+                );
+              }, 
             ),
           ],
         )

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './pages/auth_page.dart';
+import './pages/auth.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
