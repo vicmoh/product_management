@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './pages/auth.dart';
+import './pages/product_admin.dart';
+import './pages/products.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
@@ -14,6 +16,10 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/': (BuildContext context) => ProductsPage(),// must comment home:
+        '/admin': (BuildContext context) => ProductAdminPage(),
+      },
       debugShowCheckedModeBanner: false,
       // debugShowMaterialGrid: true,
       theme: ThemeData(
@@ -21,7 +27,7 @@ class MyApp extends StatelessWidget{
         accentColor: Colors.deepPurple,
         brightness: Brightness.light,
       ),
-      home: AuthPage(),
+      // home: AuthPage(),
 
     );
   }//end build

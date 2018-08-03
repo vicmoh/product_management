@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import './pages/product_admin.dart';
-import './pages/products.dart';
+// import './pages/product_admin.dart';
+// import './pages/products.dart';
 
 class MenuDrawer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    // page routing
-    Route _pageRouteTo(Widget thePage){
-      return MaterialPageRoute(
-        builder: (context) =>thePage
-      );
-    }//end route
-
     // menu button
-    _menuButton(String label, Widget page){
+    _menuButton(String label, String page){
       return ListTile(
         title: Text(label),
         onTap: () {
-          Navigator.pushReplacement(context, 
-            _pageRouteTo(page)
-          );
+          // Navigator.pushReplacement(context, 
+          //   _pageRouteTo(page)
+          // );
+          Navigator.pushReplacementNamed(context, page);
         }, 
       );
     }//end func
@@ -33,8 +27,8 @@ class MenuDrawer extends StatelessWidget{
             // remove hamburger icon
             automaticallyImplyLeading: false,
           ),
-          _menuButton("Manage Product", ProductAdminPage()),
-          _menuButton("Products", ProductsPage())
+          _menuButton("Manage Product", '/admin'),
+          _menuButton("Products", "/"),
         ],
       )
     );
