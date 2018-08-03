@@ -1,70 +1,67 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatefulWidget{
-  @override 
-  State <StatefulWidget> createState(){
+class ProductCreatePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
     return _ProductCreatePageState();
   }
 }
 
-class _ProductCreatePageState extends State<ProductCreatePage>{
-
+class _ProductCreatePageState extends State<ProductCreatePage> {
   String titleValue = '';
   String descriptionValue = '';
   double priceValue = 0.0;
 
-  _modalShowCase(BuildContext context){
+  _modalShowCase(BuildContext context) {
     return Center(
       child: RaisedButton(
-        child: Text("save"),
+          child: Text("save"),
 
-        // sliding modal from bottom
-        onPressed: () {
-          showModalBottomSheet(context: context,
-            builder: (BuildContext context){
-              return Center(child: Text("This is Modal!"));
-            }
-          );
-        }
-
-      ),
+          // sliding modal from bottom
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(child: Text("This is Modal!"));
+                });
+          }),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Column(children: <Widget>[
+    return Container(
+        margin: EdgeInsets.all(15.0),
+        child: Column(children: <Widget>[
+          // title
+          TextField(
+              decoration: InputDecoration(labelText: "Product Title"),
+              onChanged: (String value) {
+                setState(() {
+                  this.titleValue = value;
+                });
+              }),
 
-      // title
-      TextField(
-        onChanged: (String value){
-          setState(() {
-            this.titleValue = value;
-          });
-        }
-      ),
-      
-      // description
-      TextField(
-        maxLines: 4,
-        onChanged: (String value){
-          setState(() {
-            this.descriptionValue = value;
-          });
-        }
-      ),
+          // description
+          TextField(
+              maxLines: 4,
+              decoration: InputDecoration(labelText: "Product Description"),
+              onChanged: (String value) {
+                setState(() {
+                  this.descriptionValue = value;
+                });
+              }),
 
-      // price
-      TextField(
-        keyboardType: TextInputType.number,
-        onChanged: (String value){
-          setState(() {
-            this.priceValue = double.parse(value);
-          });
-        }
-      ),
-
-    ],);
+          // price
+          TextField(
+              decoration: InputDecoration(labelText: "Product Price"),
+              keyboardType: TextInputType.number,
+              onChanged: (String value) {
+                setState(() {
+                  this.priceValue = double.parse(value);
+                });
+              }),
+        ]));
   }
 }
