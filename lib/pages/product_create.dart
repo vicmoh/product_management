@@ -10,6 +10,8 @@ class ProductCreatePage extends StatefulWidget{
 class _ProductCreatePageState extends State<ProductCreatePage>{
 
   String titleValue = '';
+  String descriptionValue = '';
+  double priceValue = 0.0;
 
   _modalShowCase(BuildContext context){
     return Center(
@@ -30,15 +32,35 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
   }
 
   @override
-    Widget build(BuildContext context) {
-      // TODO: implement build
-      return Column(children: <Widget>[
-        TextField(onChanged: (String value){
-          setState(() {
-            titleValue = value;
-          });
-        },),
-        Text(titleValue),
-      ],);
-    }
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Column(children: <Widget>[
+
+      // title
+      TextField(onChanged: (String value){
+        setState(() {
+          this.titleValue = value;
+        });
+      }),
+      
+      // description
+      TextField(
+        maxLines: 4,
+        onChanged: (String value){
+        setState(() {
+          this.descriptionValue = value;
+        });
+      }),
+
+      // price
+      TextField(
+        keyboardType: TextInputType.number,
+        onChanged: (String value){
+        setState(() {
+          this.priceValue = double.parse(value);
+        });
+      }),
+
+    ],);
+  }
 }
