@@ -11,9 +11,6 @@ class MenuDrawer extends StatelessWidget{
       return ListTile(
         title: Text(label),
         onTap: () {
-          // Navigator.pushReplacement(context, 
-          //   _pageRouteTo(page)
-          // );
           Navigator.pushReplacementNamed(context, page);
         }, 
       );
