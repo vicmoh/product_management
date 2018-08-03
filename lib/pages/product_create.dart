@@ -37,29 +37,33 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
     return Column(children: <Widget>[
 
       // title
-      TextField(onChanged: (String value){
-        setState(() {
-          this.titleValue = value;
-        });
-      }),
+      TextField(
+        onChanged: (String value){
+          setState(() {
+            this.titleValue = value;
+          });
+        }
+      ),
       
       // description
       TextField(
         maxLines: 4,
         onChanged: (String value){
-        setState(() {
-          this.descriptionValue = value;
-        });
-      }),
+          setState(() {
+            this.descriptionValue = value;
+          });
+        }
+      ),
 
       // price
       TextField(
         keyboardType: TextInputType.number,
         onChanged: (String value){
-        setState(() {
-          this.priceValue = double.parse(value);
-        });
-      }),
+          setState(() {
+            this.priceValue = double.parse(value);
+          });
+        }
+      ),
 
     ],);
   }
