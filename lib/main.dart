@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './pages/product_admin.dart';
 import './pages/product.dart';
 import './pages/products.dart';
+import './pages/auth.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
@@ -41,8 +42,9 @@ class _MyAppState extends State<MyApp> {
       
       // list of routes
       routes: {
-        '/': (BuildContext context) => ProductsPage(_products),// must comment home:
+        '/': (BuildContext context) => AuthPage(), // must comment home:
         '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _deleteProduct),
+        '/products': (BuildContext context) => ProductsPage(_products),
       },
 
       // create multiple sub route
@@ -68,8 +70,8 @@ class _MyAppState extends State<MyApp> {
       },
 
       // theme and setting
-      debugShowCheckedModeBanner: false,
       // debugShowMaterialGrid: true,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
         accentColor: Colors.deepPurple,

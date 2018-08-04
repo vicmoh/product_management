@@ -6,6 +6,6 @@ class ProductListPage extends StatelessWidget{
       // TODO: implement build
       return Center(
         child: Text("List Products"),
-      );;
+      );
     }
 }

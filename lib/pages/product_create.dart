@@ -15,21 +15,21 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String descriptionValue = '';
   double priceValue = 0.0;
 
-  _modalShowCase(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-          child: Text("save"),
+  // _modalShowCase(BuildContext context) {
+  //   return Center(
+  //     child: RaisedButton(
+  //         child: Text("save"),
 
-          // sliding modal from bottom
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return Center(child: Text("This is Modal!"));
-                });
-          }),
-    );
-  }
+  //         // sliding modal from bottom
+  //         onPressed: () {
+  //           showModalBottomSheet(
+  //               context: context,
+  //               builder: (BuildContext context) {
+  //                 return Center(child: Text("This is Modal!"));
+  //               });
+  //         }),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                     "image": 'assets/food.jpg'
                   };
                   widget.addProduct(product);
-                  Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/products');
                 })
               ),
 
