@@ -5,8 +5,8 @@ import '../drawers.dart';
 class ProductsPage extends StatelessWidget {
 
   final List<Map<String, dynamic>> products;
-  final Function addProduct;
-  final Function deleteProduct;
+  // final Function addProduct;
+  // final Function deleteProduct;
 
   ProductsPage(this.products);
 
