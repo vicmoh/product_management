@@ -66,9 +66,12 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                 });
               }),
 
+          // save button
           Container(
               padding: EdgeInsets.only(top: 15.0),
               child: RaisedButton(
+                textColor: Colors.white,
+                color: Theme.of(context).accentColor,
                 child: Text("Save"),
                 onPressed: () {
                   final Map<String, dynamic> product = {
