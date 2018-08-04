@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   void _addProduct(Map<String, dynamic> product){
      setState( () {
       _products.add(product);
+      
     });
   }//end func
 

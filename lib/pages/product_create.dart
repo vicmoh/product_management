@@ -66,18 +66,21 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                 });
               }),
 
-          RaisedButton(
-              child: Text("Save"),
-              onPressed: () {
-                final Map<String, dynamic> product = {
-                  "title": this.titleValue,
-                  "description": this.descriptionValue,
-                  "price": this.priceValue,
-                  "image": 'assets/food.jpg'
-                };
-                widget.addProduct(product);
-              }),
-              
+          Container(
+              padding: EdgeInsets.only(top: 15.0),
+              child: RaisedButton(
+                child: Text("Save"),
+                onPressed: () {
+                  final Map<String, dynamic> product = {
+                    "title": this.titleValue,
+                    "description": this.descriptionValue,
+                    "price": this.priceValue,
+                    "image": 'assets/food.jpg'
+                  };
+                  widget.addProduct(product);
+                })
+              ),
+
         ]));
   }
 }
