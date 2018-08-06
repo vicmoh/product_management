@@ -30,6 +30,7 @@ class _AuthPageState extends State<StatefulWidget> {
 
               // password
               TextField(
+                  obscureText: true,
                   decoration: InputDecoration(labelText: "Password"),
                   onChanged: (value) {
                     setState(() {
