@@ -12,6 +12,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<StatefulWidget> {
   String _email = '';
   String _password = '';
+  bool _acceptTerms = false;
 
   _loginContainer() {
     return Container(
@@ -37,6 +38,17 @@ class _AuthPageState extends State<StatefulWidget> {
                       this._password = value;
                     });
                   }),
+
+              // term and condition
+              SwitchListTile(
+                value: this._acceptTerms, 
+                title: Text("AcceSpt Terms"),
+                onChanged: (bool value){
+                  setState((){
+                    this._acceptTerms = value;
+                  });
+                }
+              ),
 
               // login button
               Container(
