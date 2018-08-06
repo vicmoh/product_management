@@ -55,12 +55,6 @@ class _AuthPageState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        // // app bar
-        // appBar: AppBar(
-        //   title: Text("Login"),
-        // ),
-
         // body
         body: _loginContainer());
   }
