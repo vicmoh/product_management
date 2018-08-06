@@ -16,6 +16,7 @@ class _AuthPageState extends State<StatefulWidget> {
 
   _loginContainer() {
     return Container(
+        // imaage bakcground
         decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.cover,
@@ -23,9 +24,12 @@ class _AuthPageState extends State<StatefulWidget> {
                     Colors.white.withOpacity(0.1), BlendMode.dstATop),
                 image: AssetImage('assets/background.jpg'))),
         padding: EdgeInsets.all(15.0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+
+        // the login container
+        child: Center( child: SingleChildScrollView(
+            child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
               // username
               TextField(
                   decoration: InputDecoration(labelText: "Email"),
@@ -72,7 +76,7 @@ class _AuthPageState extends State<StatefulWidget> {
                   },
                 ),
               ),
-            ]));
+            ]))));
   } //login container
 
   @override
