@@ -40,15 +40,15 @@ class _AuthPageState extends State<StatefulWidget> {
                   }),
 
               // term and condition
-              SwitchListTile(
+              Container(padding: EdgeInsets.only(top: 15.0), child: SwitchListTile(
                 value: this._acceptTerms, 
-                title: Text("AcceSpt Terms"),
+                title: Text("Accept Terms", style: TextStyle(color: Colors.grey)),
                 onChanged: (bool value){
                   setState((){
                     this._acceptTerms = value;
                   });
                 }
-              ),
+              )),
 
               // login button
               Container(
