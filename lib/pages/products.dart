@@ -3,7 +3,6 @@ import '.././product_manager.dart';
 import '../drawers.dart';
 
 class ProductsPage extends StatelessWidget {
-
   final List<Map<String, dynamic>> products;
   // final Function addProduct;
   // final Function deleteProduct;
@@ -18,8 +17,14 @@ class ProductsPage extends StatelessWidget {
 
       // app bar
       appBar: AppBar(
-        title: Text("Title"),
-        centerTitle: true,
+        title: Text("Easy List"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {},
+          ),
+        ],
+        centerTitle: false,
       ),
 
       // body
