@@ -7,8 +7,9 @@ class MenuDrawer extends StatelessWidget{
   Widget build(BuildContext context) {
 
     // menu button
-    _menuButton(String label, String page){
+    _menuButton( IconData icon, String label, String page){
       return ListTile(
+        leading: Icon(icon),
         title: Text(label),
         onTap: () {
           Navigator.pushReplacementNamed(context, page);
@@ -24,8 +25,8 @@ class MenuDrawer extends StatelessWidget{
             // remove hamburger icon
             automaticallyImplyLeading: false,
           ),
-          _menuButton("Manage Product", '/admin'),
-          _menuButton("Products", '/products'),
+          _menuButton(Icons.edit, "Manage Product", '/admin'),
+          _menuButton(Icons.list, "Products", '/products'),
         ],
       )
     );
