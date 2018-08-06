@@ -10,7 +10,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<StatefulWidget> {
-  String username = '';
+  String email = '';
   String password = '';
 
   _loginContainer() {
@@ -21,10 +21,10 @@ class _AuthPageState extends State<StatefulWidget> {
             children: <Widget>[
               // username
               TextField(
-                  decoration: InputDecoration(labelText: "User Name"),
+                  decoration: InputDecoration(labelText: "Email"),
                   onChanged: (value) {
                     setState(() {
-                      this.username = value;
+                      this.email = value;
                     });
                   }),
 
