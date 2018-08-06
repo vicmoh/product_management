@@ -10,8 +10,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<StatefulWidget> {
-  String email = '';
-  String password = '';
+  String _email = '';
+  String _password = '';
 
   _loginContainer() {
     return Container(
@@ -24,7 +24,7 @@ class _AuthPageState extends State<StatefulWidget> {
                   decoration: InputDecoration(labelText: "Email"),
                   onChanged: (value) {
                     setState(() {
-                      this.email = value;
+                      this._email = value;
                     });
                   }),
 
@@ -34,7 +34,7 @@ class _AuthPageState extends State<StatefulWidget> {
                   decoration: InputDecoration(labelText: "Password"),
                   onChanged: (value) {
                     setState(() {
-                      this.password = value;
+                      this._password = value;
                     });
                   }),
 
@@ -46,6 +46,8 @@ class _AuthPageState extends State<StatefulWidget> {
                   textColor: Colors.white,
                   color: Theme.of(context).accentColor,
                   onPressed: () {
+                    print("email: " + this._email);
+                    print("password: " + this._password);
                     Navigator.pushReplacementNamed(context, '/products');
                   },
                 ),
