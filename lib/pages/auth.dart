@@ -16,6 +16,12 @@ class _AuthPageState extends State<StatefulWidget> {
 
   _loginContainer() {
     return Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.1), BlendMode.dstATop),
+                image: AssetImage('assets/background.jpg'))),
         padding: EdgeInsets.all(15.0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,15 +46,17 @@ class _AuthPageState extends State<StatefulWidget> {
                   }),
 
               // term and condition
-              Container(padding: EdgeInsets.only(top: 15.0), child: SwitchListTile(
-                value: this._acceptTerms, 
-                title: Text("Accept Terms", style: TextStyle(color: Colors.grey)),
-                onChanged: (bool value){
-                  setState((){
-                    this._acceptTerms = value;
-                  });
-                }
-              )),
+              Container(
+                  padding: EdgeInsets.only(top: 15.0),
+                  child: SwitchListTile(
+                      value: this._acceptTerms,
+                      title: Text("Accept Terms",
+                          style: TextStyle(color: Colors.grey)),
+                      onChanged: (bool value) {
+                        setState(() {
+                          this._acceptTerms = value;
+                        });
+                      })),
 
               // login button
               Container(
