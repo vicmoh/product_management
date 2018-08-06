@@ -13,15 +13,45 @@ class Products extends StatelessWidget {
     return Card(
       child: Column(
         children: <Widget>[
+          // image
           Image.asset(products[index]['image']),
-          Text(products[index]['title']),
+          SizedBox(height: 15.0),
+
+          // food type and price
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            // title
+            Text(
+              products[index]['title'],
+              style: TextStyle(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Oswald'),
+            ),
+            // spacing
+            SizedBox(
+              width: 10.0,
+            ),
+            // price
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
+                child: Text(
+                  '\$${products[index]['price'].toString()}',
+                  style: TextStyle(color: Colors.white),
+                ),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.circular(5.0)))
+          ]),
+
+          // detail button
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               FlatButton(
                 child: Text("Details"),
                 onPressed: () {
-                  return Navigator.pushNamed<bool>(context, '/product/' + index.toString());
+                  return Navigator.pushNamed<bool>(
+                      context, '/product/' + index.toString());
                 },
               ),
             ],
