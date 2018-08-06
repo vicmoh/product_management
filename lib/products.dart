@@ -43,6 +43,18 @@ class Products extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0)))
           ]),
 
+          Container(
+            child: Padding(
+                child: Text("Union Square, San Fransisco"),
+                padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6.0),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                )),
+          ),
+
           // detail button
           ButtonBar(
             alignment: MainAxisAlignment.center,
