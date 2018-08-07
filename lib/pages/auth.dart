@@ -14,15 +14,30 @@ class _AuthPageState extends State<StatefulWidget> {
   String _password = '';
   bool _acceptTerms = false;
 
-  _loginContainer() {
+  DecorationImage _buildBackgroundImage() {
+    return DecorationImage(
+        fit: BoxFit.cover,
+        colorFilter:
+            ColorFilter.mode(Colors.white.withOpacity(0.1), BlendMode.dstATop),
+        image: AssetImage('assets/background.jpg'));
+  } //end back img
+
+  Widget _buildTextField(String label, dynamic valueToBeSet, bool isObscure) {
+    return TextField(
+        obscureText: isObscure,
+        decoration: InputDecoration(
+            labelText: label, filled: true, fillColor: Colors.white),
+        onChanged: (value) {
+          setState(() {
+            valueToBeSet = value;
+          });
+        });
+  }
+
+  Widget _loginContainer() {
     return Container(
         // imaage bakcground
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.1), BlendMode.dstATop),
-                image: AssetImage('assets/background.jpg'))),
+        decoration: BoxDecoration(image: _buildBackgroundImage()),
         padding: EdgeInsets.all(15.0),
 
         // the login container
@@ -30,27 +45,11 @@ class _AuthPageState extends State<StatefulWidget> {
             child: SingleChildScrollView(
                 child: Column(children: <Widget>[
           // username
-          TextField(
-              decoration: InputDecoration(
-                  labelText: "Email", filled: true, fillColor: Colors.white),
-              onChanged: (value) {
-                setState(() {
-                  this._email = value;
-                });
-              }),
-
+          _buildTextField("Email", this._email, false),
+          // spacing
           SizedBox(height: 10.0),
-
           // password
-          TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  labelText: "Password", filled: true, fillColor: Colors.white),
-              onChanged: (value) {
-                setState(() {
-                  this._password = value;
-                });
-              }),
+          _buildTextField("Password", this._password, true),
 
           // term and condition
           Container(
