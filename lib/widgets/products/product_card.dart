@@ -3,17 +3,25 @@ import './price_tags.dart';
 import '../ui_elements/title_default.dart';
 import './address_tag.dart';
 
-class ProductCard extends StatelessWidget{
-
+class ProductCard extends StatelessWidget {
   final Map<String, dynamic> product;
   final int productIndex;
 
   ProductCard(this.product, this.productIndex);
 
+  Widget _buildIconButton(BuildContext context, IconData icon, Color color) {
+    return IconButton(
+      icon: Icon(icon),
+      color: color,
+      onPressed: () => Navigator.pushNamed<bool>(
+          context, '/product/' + productIndex.toString()),
+    );
+  }//end icon button build
+
   @override
-    Widget build(BuildContext context) {
-      // TODO: implement build
-      return Card(
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Card(
       child: Column(
         children: <Widget>[
           // image
@@ -25,9 +33,7 @@ class ProductCard extends StatelessWidget{
             // title
             TitleDefault(product['title']),
             // spacing
-            SizedBox(
-              width: 10.0,
-            ),
+            SizedBox(width: 10.0),
             // price
             PriceTag(product['price']),
           ]),
@@ -40,23 +46,14 @@ class ProductCard extends StatelessWidget{
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               // info button
-              IconButton(
-                icon: Icon(Icons.info),
-                color: Theme.of(context).accentColor,
-                onPressed: () => Navigator.pushNamed<bool>(
-                    context, '/product/' + productIndex.toString()),
-              ),
+              _buildIconButton(
+                  context, Icons.info, Theme.of(context).accentColor),
               // fav button
-              IconButton(
-                icon: Icon(Icons.favorite_border),
-                color: Colors.red,
-                onPressed: () => Navigator.pushNamed<bool>(
-                    context, '/product/' + productIndex.toString()),
-              )
+              _buildIconButton(context, Icons.favorite_border, Colors.red),
             ],
           ),
         ],
       ),
     );
-  }//end build
+  } //end build
 }

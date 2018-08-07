@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './product_card.dart';
-import './price_tags.dart';
 
 class Products extends StatelessWidget {
   // instances

@@ -22,18 +22,20 @@ class _AuthPageState extends State<StatefulWidget> {
             ColorFilter.mode(Colors.white.withOpacity(0.1), BlendMode.dstATop),
         image: AssetImage('assets/background.jpg'));
   } //end back img
+
   // textfield for user and pass etc
-  Widget _buildTextField(String label, dynamic valueToBeSet, bool isObscure) {
+  Widget _buildTextField(String label, bool isObscure, Function setter) {
     return TextField(
         obscureText: isObscure,
         decoration: InputDecoration(
             labelText: label, filled: true, fillColor: Colors.white),
         onChanged: (value) {
           setState(() {
-            valueToBeSet = value;
+            setter(value);
           });
         });
-  }
+  }// textfield func
+
   // main login container
   Widget _loginContainer() {
     return Container(
@@ -46,11 +48,15 @@ class _AuthPageState extends State<StatefulWidget> {
             child: SingleChildScrollView(
                 child: Column(children: <Widget>[
           // username
-          _buildTextField("Email", this._email, false),
+          _buildTextField("Email", false, (String value) {
+            this._email = value;
+          }),
           // spacing
           SizedBox(height: 10.0),
           // password
-          _buildTextField("Password", this._password, true),
+          _buildTextField("Password", true, (String value) {
+            this._password = value;
+          }),
 
           // term and condition
           Container(
@@ -73,6 +79,7 @@ class _AuthPageState extends State<StatefulWidget> {
               textColor: Colors.white,
               color: Theme.of(context).accentColor,
               onPressed: () {
+                print("---LOGIN---");
                 print("email: " + this._email);
                 print("password: " + this._password);
                 Navigator.pushReplacementNamed(context, '/products');

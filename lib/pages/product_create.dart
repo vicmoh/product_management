@@ -11,9 +11,9 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String _titleValue = '';
-  String _descriptionValue = '';
-  double _priceValue = 0.0;
+  String _title = '';
+  String _description = '';
+  double _price = 0.0;
 
   // popup modal from bottom
   _modalShowCase(BuildContext context) {
@@ -31,25 +31,29 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
           }),
     );
   }
+
   // textfield
-  Widget _buildTextField(String title, dynamic thisValue, int numOfLines) {
-    return TextField(
+  Widget _buildTextField(String title, int numOfLines, TextInputType type, Function setter) {
+    return TextField(keyboardType: type,
         maxLines: numOfLines,
         decoration: InputDecoration(labelText: title),
-        onChanged: (String value) {
+        onChanged: (dynamic value) {
           setState(() {
-            thisValue = value;
+            setter(value);
           });
         });
-  } //end build title
+  } //end build
+
   // subtmit map form
-  _submitForm() {
+  void _submitForm() {
     final Map<String, dynamic> product = {
-      "title": this._titleValue,
-      "description": this._descriptionValue,
-      "price": this._priceValue,
+      "title": this._title,
+      "description": this._description,
+      "price": this._price,
       "image": 'assets/food.jpg'
     };
+    print("---ADDING---");
+    print("Title: " + this._title);
     widget.addProduct(product);
     Navigator.pushReplacementNamed(context, '/products');
   }
@@ -61,11 +65,17 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         margin: EdgeInsets.all(15.0),
         child: Column(children: <Widget>[
           // title
-          _buildTextField("Product Title", this._titleValue, 1),
+          _buildTextField("Product Title", 1, TextInputType.text, (String value){
+            this._title = value;
+          }),
           // description
-          _buildTextField("Product Description", this._descriptionValue, 4),
+          _buildTextField("Product Description", 4, TextInputType.text, (String value){
+            this._description = value;
+          }),
           // price
-          _buildTextField("Product Price", this._priceValue, 1),
+          _buildTextField("Product Price", 1, TextInputType.number, (String value){
+            this._price = double.parse(value);
+          }),
 
           // save button
           Container(
