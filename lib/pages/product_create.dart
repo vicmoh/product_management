@@ -15,22 +15,23 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String _descriptionValue = '';
   double _priceValue = 0.0;
 
-  // _modalShowCase(BuildContext context) {
-  //   return Center(
-  //     child: RaisedButton(
-  //         child: Text("save"),
+  // popup modal from bottom
+  _modalShowCase(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+          child: Text("save"),
 
-  //         // sliding modal from bottom
-  //         onPressed: () {
-  //           showModalBottomSheet(
-  //               context: context,
-  //               builder: (BuildContext context) {
-  //                 return Center(child: Text("This is Modal!"));
-  //               });
-  //         }),
-  //   );
-  // }
-
+          // sliding modal from bottom
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(child: Text("This is Modal!"));
+                });
+          }),
+    );
+  }
+  // textfield
   Widget _buildTextField(String title, dynamic thisValue, int numOfLines) {
     return TextField(
         maxLines: numOfLines,
@@ -41,7 +42,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
           });
         });
   } //end build title
-
+  // subtmit map form
   _submitForm() {
     final Map<String, dynamic> product = {
       "title": this._titleValue,
