@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './pages/product.dart';
+import './price_tags.dart';
 
 class Products extends StatelessWidget {
   // instances
@@ -32,15 +32,7 @@ class Products extends StatelessWidget {
               width: 10.0,
             ),
             // price
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
-                child: Text(
-                  '\$${products[index]['price'].toString()}',
-                  style: TextStyle(color: Colors.white),
-                ),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.circular(5.0)))
+            PriceTag(products[index]['price']),
           ]),
 
           Container(
