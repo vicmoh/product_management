@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "../drawers.dart";
+import '../widgets/ui_elements/drawers.dart';
 import "./product_create.dart";
 import "./product_list.dart";
 
