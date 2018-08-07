@@ -59,9 +59,10 @@ class ProductPage extends StatelessWidget {
               height: 15.0,
             ),
             Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   this.description,
+                  textAlign: TextAlign.center,
                 )),
           ],
         ),
