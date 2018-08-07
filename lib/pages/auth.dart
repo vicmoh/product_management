@@ -14,6 +14,7 @@ class _AuthPageState extends State<StatefulWidget> {
   String _password = '';
   bool _acceptTerms = false;
 
+  // background image
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
         fit: BoxFit.cover,
@@ -21,7 +22,7 @@ class _AuthPageState extends State<StatefulWidget> {
             ColorFilter.mode(Colors.white.withOpacity(0.1), BlendMode.dstATop),
         image: AssetImage('assets/background.jpg'));
   } //end back img
-
+  // textfield for user and pass etc
   Widget _buildTextField(String label, dynamic valueToBeSet, bool isObscure) {
     return TextField(
         obscureText: isObscure,
@@ -33,7 +34,7 @@ class _AuthPageState extends State<StatefulWidget> {
           });
         });
   }
-
+  // main login container
   Widget _loginContainer() {
     return Container(
         // imaage bakcground
