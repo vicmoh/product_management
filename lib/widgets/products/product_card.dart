@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './price_tags.dart';
+import '../ui_elements/title_default.dart';
+import './address_tag.dart';
 
 class ProductCard extends StatelessWidget{
 
@@ -21,13 +23,7 @@ class ProductCard extends StatelessWidget{
           // food type and price
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             // title
-            Text(
-              product['title'],
-              style: TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Oswald'),
-            ),
+            TitleDefault(product['title']),
             // spacing
             SizedBox(
               width: 10.0,
@@ -36,17 +32,8 @@ class ProductCard extends StatelessWidget{
             PriceTag(product['price']),
           ]),
 
-          Container(
-            child: Padding(
-                child: Text("Union Square, San Fransisco"),
-                padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5)),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.0),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1.0,
-                )),
-          ),
+          // address
+          AddressTag("Union Square, San Fransisco"),
 
           // detail button
           ButtonBar(

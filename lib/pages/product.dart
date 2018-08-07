@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../widgets/ui_elements/title_default.dart';
 
 class ProductPage extends StatelessWidget {
   final String title;
@@ -29,11 +30,7 @@ class ProductPage extends StatelessWidget {
             // food label
             Container(
               padding: EdgeInsets.all(10.0),
-              child: Text(this.title,
-                  style: TextStyle(
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Oswald")),
+              child: TitleDefault(this.title)
             ),
 
             // price and location
