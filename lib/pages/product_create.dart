@@ -53,7 +53,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         maxLines: numOfLines,
         decoration: InputDecoration(labelText: title),
         validator: validator,
-        autovalidate: true,
+        // autovalidate: true,
         onSaved: (String value) {
           setState(() {
             setter(value);
@@ -64,6 +64,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   // subtmit map form
   void _submitForm() {
     // when all form is okay
+    if (!_formKey.currentState.validate())return;
     _formKey.currentState.save();
     // save to the map
     final Map<String, dynamic> product = {
