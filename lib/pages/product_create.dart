@@ -21,7 +21,6 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     return Center(
       child: RaisedButton(
           child: Text("save"),
-
           // sliding modal from bottom
           onPressed: () {
             showModalBottomSheet(
