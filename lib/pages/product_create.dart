@@ -41,7 +41,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   }
 
   _setPrice(String value) {
-    this._price = double.parse(value);
+    this._price = double.tryParse(value);
   }
 
   // textfield
@@ -74,6 +74,8 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     };
     print("---ADDING---");
     print("Title: " + this._title);
+    print("Description: "+ this._description);
+    print("price: "+ this._price.toString());
     widget.addProduct(product);
     Navigator.pushReplacementNamed(context, '/products');
   }
@@ -102,7 +104,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
               _buildTextFormField(
                   "Product Price", 1, TextInputType.number, _setPrice,
                   (String value) {
-                if (value.isEmpty) return "Required";
+                if (double.tryParse(value) == null) return "Required";
               }),
               // save button
               Container(
