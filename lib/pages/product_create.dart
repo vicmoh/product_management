@@ -14,6 +14,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String _title = '';
   String _description = '';
   double _price = 0.0;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // popup modal from bottom
   _modalShowCase(BuildContext context) {
@@ -30,14 +31,30 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                 });
           }),
     );
+  } //end modal func
+
+  _setTitle(String value) {
+    this._title = value;
+  }
+
+  _setDescription(String value) {
+    this._description = value;
+  }
+
+  _setPrice(String value) {
+    this._price = double.parse(value);
   }
 
   // textfield
-  Widget _buildTextField(String title, int numOfLines, TextInputType type, Function setter) {
-    return TextField(keyboardType: type,
+  Widget _buildTextFormField(String title, int numOfLines, TextInputType type,
+      Function setter, Function validator) {
+    return TextFormField(
+        keyboardType: type,
         maxLines: numOfLines,
         decoration: InputDecoration(labelText: title),
-        onChanged: (dynamic value) {
+        validator: validator,
+        autovalidate: true,
+        onSaved: (String value) {
           setState(() {
             setter(value);
           });
@@ -46,6 +63,9 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
   // subtmit map form
   void _submitForm() {
+    // when all form is okay
+    _formKey.currentState.save();
+    // save to the map
     final Map<String, dynamic> product = {
       "title": this._title,
       "description": this._description,
@@ -63,28 +83,35 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     // TODO: implement build
     return Container(
         margin: EdgeInsets.all(15.0),
-        child: Column(children: <Widget>[
-          // title
-          _buildTextField("Product Title", 1, TextInputType.text, (String value){
-            this._title = value;
-          }),
-          // description
-          _buildTextField("Product Description", 4, TextInputType.text, (String value){
-            this._description = value;
-          }),
-          // price
-          _buildTextField("Product Price", 1, TextInputType.number, (String value){
-            this._price = double.parse(value);
-          }),
-
-          // save button
-          Container(
-              padding: EdgeInsets.only(top: 15.0),
-              child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Theme.of(context).accentColor,
-                  child: Text("Save"),
-                  onPressed: _submitForm)),
-        ]));
+        child: Form(
+            key: _formKey,
+            child: Column(children: <Widget>[
+              // title
+              _buildTextFormField(
+                  "Product Title", 1, TextInputType.text, _setTitle,
+                  (String value) {
+                if (value.isEmpty) return "Required";
+              }),
+              // description
+              _buildTextFormField(
+                  "Product Description", 4, TextInputType.text, _setDescription,
+                  (String value) {
+                if (value.isEmpty) return "Required";
+              }),
+              // price
+              _buildTextFormField(
+                  "Product Price", 1, TextInputType.number, _setPrice,
+                  (String value) {
+                if (value.isEmpty) return "Required";
+              }),
+              // save button
+              Container(
+                  padding: EdgeInsets.only(top: 15.0),
+                  child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Theme.of(context).accentColor,
+                      child: Text("Save"),
+                      onPressed: _submitForm)),
+            ])));
   }
 }
