@@ -11,10 +11,13 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String _title = '';
-  String _description = '';
-  double _price = 0.0;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> _formData = {
+    'title': null,
+    'description': null,
+    'price': null,
+    'image': 'assets/food.jpg'
+  };
 
   // popup modal from bottom
   _modalShowCase(BuildContext context) {
@@ -33,15 +36,15 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   } //end modal func
 
   _setTitle(String value) {
-    this._title = value;
+    this._formData['title'] = value;
   }
 
   _setDescription(String value) {
-    this._description = value;
+    this._formData['description'] = value;
   }
 
   _setPrice(String value) {
-    this._price = double.tryParse(value);
+    this._formData['price'] = double.tryParse(value);
   }
 
   String _validateString(String value) {
@@ -82,17 +85,11 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
     // save to the map
-    final Map<String, dynamic> product = {
-      "title": this._title,
-      "description": this._description,
-      "price": this._price,
-      "image": 'assets/food.jpg'
-    };
     print("---ADDING---");
-    print("Title: " + this._title);
-    print("Description: " + this._description);
-    print("price: " + this._price.toString());
-    widget.addProduct(product);
+    print("Title: " + this._formData['title']);
+    print("Description: " + this._formData['description']);
+    print("price: " + this._formData['price'].toString());
+    widget.addProduct(_formData);
     Navigator.pushReplacementNamed(context, '/products');
   }
 
