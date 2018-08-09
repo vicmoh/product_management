@@ -74,7 +74,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         // autovalidate: true,
         onSaved: (String value) {
           // setState(() {
-            setter(value);
+          setter(value);
           // });
         });
   } //end build
