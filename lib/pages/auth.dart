@@ -67,46 +67,51 @@ class _AuthPageState extends State<StatefulWidget> {
   Widget _loginContainer() {
     return Form(
         key: _loginKey,
-        child: Container(
-            // imaage bakcground
-            decoration: BoxDecoration(image: _buildBackgroundImage()),
-            padding: EdgeInsets.all(15.0),
+        child: GestureDetector(
+            onTap: () {
+              // put keyboard down onces done
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Container(
+                // imaage bakcground
+                decoration: BoxDecoration(image: _buildBackgroundImage()),
+                padding: EdgeInsets.all(15.0),
 
-            // the login container
-            child: Center(
-                child: SingleChildScrollView(
-                    child: Column(children: <Widget>[
-              // username
-              _buildTextField("Email", false, _setEmail),
-              // spacing
-              SizedBox(height: 10.0),
-              // password
-              _buildTextField("Password", true, _setPassword),
+                // the login container
+                child: Center(
+                    child: SingleChildScrollView(
+                        child: Column(children: <Widget>[
+                  // username
+                  _buildTextField("Email", false, _setEmail),
+                  // spacing
+                  SizedBox(height: 10.0),
+                  // password
+                  _buildTextField("Password", true, _setPassword),
 
-              // term and condition
-              Container(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: SwitchListTile(
-                      value: this._acceptTerms,
-                      title: Text("Accept Terms",
-                          style: TextStyle(color: Colors.grey)),
-                      onChanged: (bool value) {
-                        setState(() {
-                          this._acceptTerms = value;
-                        });
-                      })),
+                  // term and condition
+                  Container(
+                      padding: EdgeInsets.only(top: 15.0),
+                      child: SwitchListTile(
+                          value: this._acceptTerms,
+                          title: Text("Accept Terms",
+                              style: TextStyle(color: Colors.grey)),
+                          onChanged: (bool value) {
+                            setState(() {
+                              this._acceptTerms = value;
+                            });
+                          })),
 
-              // login button
-              Container(
-                padding: EdgeInsets.only(top: 15.0),
-                child: RaisedButton(
-                  child: Text("Login"),
-                  textColor: Colors.white,
-                  color: Theme.of(context).accentColor,
-                  onPressed: _submitLogin,
-                ),
-              ),
-            ])))));
+                  // login button
+                  Container(
+                    padding: EdgeInsets.only(top: 15.0),
+                    child: RaisedButton(
+                      child: Text("Login"),
+                      textColor: Colors.white,
+                      color: Theme.of(context).accentColor,
+                      onPressed: _submitLogin,
+                    ),
+                  ),
+                ]))))));
   } //login container
 
   @override
