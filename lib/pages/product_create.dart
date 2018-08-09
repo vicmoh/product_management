@@ -44,6 +44,22 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     this._price = double.tryParse(value);
   }
 
+  String _validateString(String value) {
+    if (value.isEmpty) {
+      return "Required";
+    } else {
+      return null;
+    }
+  }
+
+  String _validateNumber(String value) {
+    if (double.tryParse(value) == null) {
+      return "Required and must be a number";
+    } else {
+      return null;
+    }
+  }
+
   // textfield
   Widget _buildTextFormField(String title, int numOfLines, TextInputType type,
       Function setter, Function validator) {
@@ -63,7 +79,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   // subtmit map form
   void _submitForm() {
     // when all form is okay
-    if (!_formKey.currentState.validate())return;
+    if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
     // save to the map
     final Map<String, dynamic> product = {
@@ -74,8 +90,8 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     };
     print("---ADDING---");
     print("Title: " + this._title);
-    print("Description: "+ this._description);
-    print("price: "+ this._price.toString());
+    print("Description: " + this._description);
+    print("price: " + this._price.toString());
     widget.addProduct(product);
     Navigator.pushReplacementNamed(context, '/products');
   }
@@ -89,23 +105,14 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             key: _formKey,
             child: Column(children: <Widget>[
               // title
-              _buildTextFormField(
-                  "Product Title", 1, TextInputType.text, _setTitle,
-                  (String value) {
-                if (value.isEmpty) return "Required";
-              }),
+              _buildTextFormField("Product Title", 1, TextInputType.text,
+                  _setTitle, _validateString),
               // description
-              _buildTextFormField(
-                  "Product Description", 4, TextInputType.text, _setDescription,
-                  (String value) {
-                if (value.isEmpty) return "Required";
-              }),
+              _buildTextFormField("Product Description", 4, TextInputType.text,
+                  _setDescription, _validateString),
               // price
-              _buildTextFormField(
-                  "Product Price", 1, TextInputType.number, _setPrice,
-                  (String value) {
-                if (double.tryParse(value) == null) return "Required";
-              }),
+              _buildTextFormField("Product Price", 1, TextInputType.number,
+                  _setPrice, _validateNumber),
               // save button
               Container(
                   padding: EdgeInsets.only(top: 15.0),
