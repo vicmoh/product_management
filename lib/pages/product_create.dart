@@ -99,28 +99,33 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-        margin: EdgeInsets.all(15.0),
-        child: Form(
-            key: _formKey,
-            child: Column(children: <Widget>[
-              // title
-              _buildTextFormField("Product Title", 1, TextInputType.text,
-                  _setTitle, _validateString),
-              // description
-              _buildTextFormField("Product Description", 4, TextInputType.text,
-                  _setDescription, _validateString),
-              // price
-              _buildTextFormField("Product Price", 1, TextInputType.number,
-                  _setPrice, _validateNumber),
-              // save button
-              Container(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).accentColor,
-                      child: Text("Save"),
-                      onPressed: _submitForm)),
-            ])));
+    return GestureDetector(
+        onTap: () {
+          // IMPORTANT: gesture to put keyboard down when clicked
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+            margin: EdgeInsets.all(15.0),
+            child: Form(
+                key: _formKey,
+                child: Column(children: <Widget>[
+                  // title
+                  _buildTextFormField("Product Title", 1, TextInputType.text,
+                      _setTitle, _validateString),
+                  // description
+                  _buildTextFormField("Product Description", 4,
+                      TextInputType.text, _setDescription, _validateString),
+                  // price
+                  _buildTextFormField("Product Price", 1, TextInputType.number,
+                      _setPrice, _validateNumber),
+                  // save button
+                  Container(
+                      padding: EdgeInsets.only(top: 15.0),
+                      child: RaisedButton(
+                          textColor: Colors.white,
+                          color: Theme.of(context).accentColor,
+                          child: Text("Save"),
+                          onPressed: _submitForm)),
+                ]))));
   }
 }
