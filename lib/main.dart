@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       // list of routes
       routes: {
         '/': (BuildContext context) => AuthPage(), // must comment home:
-        '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _deleteProduct),
+        '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _deleteProduct, _products),
         '/products': (BuildContext context) => ProductsPage(_products),
       },
 
