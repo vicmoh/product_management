@@ -10,9 +10,37 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<StatefulWidget> {
-  String _email = '';
-  String _password = '';
+  GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   bool _acceptTerms = false;
+  var _loginData = {
+    'email': '',
+    'password': '',
+  };
+
+  _setEmail(String value) {
+    _loginData['email'] = value;
+  }
+
+  _setPassword(String value) {
+    _loginData['password'] = value;
+  }
+
+  String _validataString(String toBeValidate) {
+    if (toBeValidate.isEmpty) {
+      return 'Required';
+    } else {
+      return null;
+    }
+  }
+
+  _submitLogin() {
+    if (!_loginKey.currentState.validate()) return;
+    _loginKey.currentState.save();
+    print("---LOGIN---");
+    print("email: " + _loginData['email']);
+    print("password: " + _loginData['email']);
+    Navigator.pushReplacementNamed(context, '/products');
+  }
 
   // background image
   DecorationImage _buildBackgroundImage() {
@@ -25,68 +53,60 @@ class _AuthPageState extends State<StatefulWidget> {
 
   // textfield for user and pass etc
   Widget _buildTextField(String label, bool isObscure, Function setter) {
-    return TextField(
+    return TextFormField(
         obscureText: isObscure,
         decoration: InputDecoration(
             labelText: label, filled: true, fillColor: Colors.white),
-        onChanged: (value) {
-          setState(() {
-            setter(value);
-          });
+        validator: _validataString,
+        onSaved: (value) {
+          setter(value);
         });
-  }// textfield func
+  } // textfield func
 
   // main login container
   Widget _loginContainer() {
-    return Container(
-        // imaage bakcground
-        decoration: BoxDecoration(image: _buildBackgroundImage()),
-        padding: EdgeInsets.all(15.0),
+    return Form(
+        key: _loginKey,
+        child: Container(
+            // imaage bakcground
+            decoration: BoxDecoration(image: _buildBackgroundImage()),
+            padding: EdgeInsets.all(15.0),
 
-        // the login container
-        child: Center(
-            child: SingleChildScrollView(
-                child: Column(children: <Widget>[
-          // username
-          _buildTextField("Email", false, (String value) {
-            this._email = value;
-          }),
-          // spacing
-          SizedBox(height: 10.0),
-          // password
-          _buildTextField("Password", true, (String value) {
-            this._password = value;
-          }),
+            // the login container
+            child: Center(
+                child: SingleChildScrollView(
+                    child: Column(children: <Widget>[
+              // username
+              _buildTextField("Email", false, _setEmail),
+              // spacing
+              SizedBox(height: 10.0),
+              // password
+              _buildTextField("Password", true, _setPassword),
 
-          // term and condition
-          Container(
-              padding: EdgeInsets.only(top: 15.0),
-              child: SwitchListTile(
-                  value: this._acceptTerms,
-                  title: Text("Accept Terms",
-                      style: TextStyle(color: Colors.grey)),
-                  onChanged: (bool value) {
-                    setState(() {
-                      this._acceptTerms = value;
-                    });
-                  })),
+              // term and condition
+              Container(
+                  padding: EdgeInsets.only(top: 15.0),
+                  child: SwitchListTile(
+                      value: this._acceptTerms,
+                      title: Text("Accept Terms",
+                          style: TextStyle(color: Colors.grey)),
+                      onChanged: (bool value) {
+                        setState(() {
+                          this._acceptTerms = value;
+                        });
+                      })),
 
-          // login button
-          Container(
-            padding: EdgeInsets.only(top: 15.0),
-            child: RaisedButton(
-              child: Text("Login"),
-              textColor: Colors.white,
-              color: Theme.of(context).accentColor,
-              onPressed: () {
-                print("---LOGIN---");
-                print("email: " + this._email);
-                print("password: " + this._password);
-                Navigator.pushReplacementNamed(context, '/products');
-              },
-            ),
-          ),
-        ]))));
+              // login button
+              Container(
+                padding: EdgeInsets.only(top: 15.0),
+                child: RaisedButton(
+                  child: Text("Login"),
+                  textColor: Colors.white,
+                  color: Theme.of(context).accentColor,
+                  onPressed: _submitLogin,
+                ),
+              ),
+            ])))));
   } //login container
 
   @override
