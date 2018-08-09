@@ -8,7 +8,6 @@ class ProductListPage extends StatelessWidget {
     print("---PRODUCTS LIST PAGE---");
     print("title: " + products[index]['title']);
     return Container(
-
         padding: EdgeInsets.only(bottom: 3.0),
         child: Container(
             color: Colors.white,
@@ -24,10 +23,9 @@ class ProductListPage extends StatelessWidget {
     // TODO: implement build
     return Container(
         child: ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _content(context, index);
-      },
-    ));
+            itemCount: products.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _content(context, index);
+            }));
   }
 }
