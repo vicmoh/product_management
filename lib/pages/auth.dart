@@ -11,18 +11,14 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<StatefulWidget> {
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
-  bool _acceptTerms = false;
-  var _loginData = {
-    'email': '',
-    'password': '',
-  };
+  var _loginData = {'email': '', 'password': '', 'acceptTerm': false};
 
   _setEmail(String value) {
-    _loginData['email'] = value;
+    this._loginData['email'] = value;
   }
 
   _setPassword(String value) {
-    _loginData['password'] = value;
+    this._loginData['password'] = value;
   }
 
   String _validataString(String toBeValidate) {
@@ -34,11 +30,28 @@ class _AuthPageState extends State<StatefulWidget> {
   }
 
   _submitLogin() {
-    if (!_loginKey.currentState.validate()) return;
+    if (!_loginKey.currentState.validate()) {
+      return;
+    } else if (_loginData['acceptTerm'] == false) {
+      print("show alert:");
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                  actions: <Widget>[
+                      FlatButton(
+                        child: Text("Close"),
+                        onPressed: () {Navigator.of(context).pop();},
+                      ),
+                  ],
+                  title: Text("Term and Condition"),
+                  content: Text(
+                      "Please accept the term and condition to continue.")));
+      return;
+    }
     _loginKey.currentState.save();
     print("---LOGIN---");
-    print("email: " + _loginData['email']);
-    print("password: " + _loginData['email']);
+    print("email: " + this._loginData['email']);
+    print("password: " + this._loginData['email']);
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -92,12 +105,12 @@ class _AuthPageState extends State<StatefulWidget> {
                   Container(
                       padding: EdgeInsets.only(top: 15.0),
                       child: SwitchListTile(
-                          value: this._acceptTerms,
+                          value: this._loginData['acceptTerm'],
                           title: Text("Accept Terms",
                               style: TextStyle(color: Colors.grey)),
                           onChanged: (bool value) {
                             setState(() {
-                              this._acceptTerms = value;
+                              this._loginData['acceptTerm'] = value;
                             });
                           })),
 
