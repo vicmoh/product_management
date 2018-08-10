@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import '../widgets/ui_elements/drawers.dart';
-import "./product_create.dart";
+import "./product_edit.dart";
 import "./product_list.dart";
 
 class ProductAdminPage extends StatelessWidget{
