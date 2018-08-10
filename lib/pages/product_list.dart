@@ -15,12 +15,14 @@ class ProductListPage extends StatelessWidget {
             child: ListTile(
               leading: Image.asset(products[index]['image'], height: 25.0),
               title: Text(products[index]['title']),
-              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                  return ProductEditPage(
-                    product: products[index]);
-                }));
-              }),
+              trailing: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return ProductEditPage(product: products[index]);
+                    }));
+                  }),
             )));
   }
 
