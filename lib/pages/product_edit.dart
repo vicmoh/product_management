@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatefulWidget {
+class ProductEditPage extends StatefulWidget {
   final Function addProduct;
-  ProductCreatePage(this.addProduct);
+  ProductEditPage(this.addProduct);
 
   @override
   State<StatefulWidget> createState() {
@@ -10,7 +10,7 @@ class ProductCreatePage extends StatefulWidget {
   }
 }
 
-class _ProductEditPageState extends State<ProductCreatePage> {
+class _ProductEditPageState extends State<ProductEditPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'title': null,
