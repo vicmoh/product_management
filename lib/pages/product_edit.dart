@@ -66,9 +66,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
   }
 
   // textfield
-  Widget _buildTextFormField(String title, int numOfLines, TextInputType type,
-      Function setter, Function validator) {
+  Widget _buildTextFormField(String title, String mapDataType, int numOfLines,
+      TextInputType type, Function setter, Function validator) {
     return TextFormField(
+        initialValue: widget.product == null
+            ? ''
+            : widget.product[mapDataType].toString(),
         keyboardType: type,
         maxLines: numOfLines,
         decoration: InputDecoration(labelText: title),
@@ -98,7 +101,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GestureDetector(
+    final Widget pageContent = GestureDetector(
         onTap: () {
           // IMPORTANT: gesture to put keyboard down when clicked
           FocusScope.of(context).requestFocus(FocusNode());
@@ -109,14 +112,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
                 key: _formKey,
                 child: Column(children: <Widget>[
                   // title
-                  _buildTextFormField("Product Title", 1, TextInputType.text,
-                      _setTitle, _validateString),
+                  _buildTextFormField("Product Title", "title", 1,
+                      TextInputType.text, _setTitle, _validateString),
                   // description
-                  _buildTextFormField("Product Description", 4,
+                  _buildTextFormField("Product Description", "description", 4,
                       TextInputType.text, _setDescription, _validateString),
                   // price
-                  _buildTextFormField("Product Price", 1, TextInputType.number,
-                      _setPrice, _validateNumber),
+                  _buildTextFormField("Product Price", "price", 1,
+                      TextInputType.number, _setPrice, _validateNumber),
                   // save button
                   Container(
                       padding: EdgeInsets.only(top: 15.0),
@@ -126,5 +129,13 @@ class _ProductEditPageState extends State<ProductEditPage> {
                           child: Text("Save"),
                           onPressed: _submitForm)),
                 ]))));
+    return widget.product == null
+        ? pageContent
+        : Scaffold(
+            appBar: AppBar(
+              title: Text('Edit Product'),
+            ),
+            body: pageContent,
+          );
   }
 }
