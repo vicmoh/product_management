@@ -4,7 +4,9 @@ class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   final Map<String, dynamic> product;
-  ProductEditPage({this.addProduct, this.updateProduct, this.product});
+  final int productIndex;
+  ProductEditPage(
+      {this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -89,12 +91,17 @@ class _ProductEditPageState extends State<ProductEditPage> {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
-    // save to the map
-    print("---ADDING---");
-    print("Title: " + this._formData['title']);
-    print("Description: " + this._formData['description']);
-    print("price: " + this._formData['price'].toString());
-    widget.addProduct(_formData);
+    if (widget.product == null) {
+      // save to the map
+      print("---ADDING---");
+      print("Title: " + this._formData['title']);
+      print("Description: " + this._formData['description']);
+      print("price: " + this._formData['price'].toString());
+      widget.addProduct(_formData);
+    } else {
+      print("---UPDATING PRODUCT---");
+      widget.updateProduct(widget.productIndex, _formData);
+    }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
