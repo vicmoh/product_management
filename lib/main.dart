@@ -6,38 +6,37 @@ import './pages/auth.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
-void main(){
+void main() {
   // debugPaintSizeEnabled = true;
   // debugPaintBaselinesEnabled = true;
   // debugPaintPointersEnabled = true;
   runApp(new MyApp());
-}//end main
+} //end main
 
-class MyApp extends StatefulWidget{
+class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState(){
+  State<StatefulWidget> createState() {
     return _MyAppState();
   }
 }
 
 class _MyAppState extends State<MyApp> {
   List<Map<String, dynamic>> _products = [];
-  
-  void _addProduct(Map<String, dynamic> product){
-     setState( () {
-      _products.add(product);
-      
-    });
-  }//end func
 
-  void _deleteProduct(int index){
+  void _addProduct(Map<String, dynamic> product) {
     setState(() {
-      _products.removeAt(index);    
+      _products.add(product);
     });
-  }//end func
+  } //end func
 
-  void _updateProduct(int index, Map<String, dynamic> product){
-    setState((){
+  void _deleteProduct(int index) {
+    setState(() {
+      _products.removeAt(index);
+    });
+  } //end func
+
+  void _updateProduct(int index, Map<String, dynamic> product) {
+    setState(() {
       _products[index] = product;
     });
   }
@@ -45,25 +44,25 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       // list of routes
       routes: {
         '/': (BuildContext context) => AuthPage(), // must comment home:
-        '/admin': (BuildContext context) => ProductAdminPage(_addProduct, _updateProduct, _deleteProduct, _products),
+        '/admin': (BuildContext context) => ProductAdminPage(
+            _addProduct, _updateProduct, _deleteProduct, _products),
         '/products': (BuildContext context) => ProductsPage(_products),
       },
 
       // create multiple sub route
-      onGenerateRoute: (RouteSettings settings){
+      onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
-        if(pathElements[0] != ''){
+        if (pathElements[0] != '') {
           return null;
         }
-        if(pathElements[1] == 'product'){
+        if (pathElements[1] == 'product') {
           final int index = int.parse(pathElements[2]);
-            return MaterialPageRoute<bool>(
+          return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
-                _products[index]['title'], 
+                _products[index]['title'],
                 _products[index]['image'],
                 _products[index]['price'],
                 _products[index]['description']),
@@ -73,9 +72,9 @@ class _MyAppState extends State<MyApp> {
       },
 
       // when route doesnt exist go to default
-      onUnknownRoute: (RouteSettings setting){ 
-        return MaterialPageRoute(builder: (BuildContext context) => 
-        ProductsPage(_products));
+      onUnknownRoute: (RouteSettings setting) {
+        return MaterialPageRoute(
+            builder: (BuildContext context) => ProductsPage(_products));
       },
 
       // theme and setting
@@ -87,7 +86,6 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
       ),
       // home: AuthPage(),
-
     );
-  }//end build
-}//end class
+  } //end build
+} //end class

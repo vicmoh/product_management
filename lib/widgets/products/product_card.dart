@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
       onPressed: () => Navigator.pushNamed<bool>(
           context, '/product/' + productIndex.toString()),
     );
-  }//end icon button build
+  } //end icon button build
 
   @override
   Widget build(BuildContext context) {

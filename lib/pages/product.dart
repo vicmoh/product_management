@@ -29,9 +29,7 @@ class ProductPage extends StatelessWidget {
 
             // food label
             Container(
-              padding: EdgeInsets.all(10.0),
-              child: TitleDefault(this.title)
-            ),
+                padding: EdgeInsets.all(10.0), child: TitleDefault(this.title)),
 
             // price and location
             Row(

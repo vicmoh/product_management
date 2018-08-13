@@ -38,10 +38,12 @@ class _AuthPageState extends State<StatefulWidget> {
           context: context,
           builder: (BuildContext context) => AlertDialog(
                   actions: <Widget>[
-                      FlatButton(
-                        child: Text("Close"),
-                        onPressed: () {Navigator.of(context).pop();},
-                      ),
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   ],
                   title: Text("Term and Condition"),
                   content: Text(
