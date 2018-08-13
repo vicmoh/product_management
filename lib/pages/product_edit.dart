@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/helpers/ensure-visible.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
@@ -22,6 +23,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     'price': null,
     'image': 'assets/food.jpg'
   };
+  final _titleFocusNode = FocusNode();
 
   // popup modal from bottom
   _modalShowCase(BuildContext context) {
@@ -70,7 +72,10 @@ class _ProductEditPageState extends State<ProductEditPage> {
   // textfield
   Widget _buildTextFormField(String title, String mapDataType, int numOfLines,
       TextInputType type, Function setter, Function validator) {
-    return TextFormField(
+    return EnsureVisibleWhenFocused(
+      focusNode: this._titleFocusNode,
+      child: TextFormField(
+        focusNode: this._titleFocusNode,
         initialValue: widget.product == null
             ? ''
             : widget.product[mapDataType].toString(),
@@ -83,7 +88,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
           // setState(() {
           setter(value);
           // });
-        });
+        }));
   } //end build
 
   // subtmit map form
