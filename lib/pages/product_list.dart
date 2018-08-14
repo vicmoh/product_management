@@ -3,8 +3,9 @@ import './product_edit.dart';
 
 class ProductListPage extends StatelessWidget {
   final Function updateProduct;
+  final Function deleteProduct;
   final List<Map<String, dynamic>> products;
-  ProductListPage(this.products, this.updateProduct);
+  ProductListPage(this.products, this.updateProduct, this.deleteProduct);
 
   _content(BuildContext context, int index) {
     print("---PRODUCTS LIST PAGE---");
@@ -14,27 +15,28 @@ class ProductListPage extends StatelessWidget {
         child: Container(
             // color: Colors.white,
             child: Column(children: <Widget>[
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(products[index]['image']),
-                ),
-                title: Text(products[index]['title']),
-                subtitle: Text('\$' + this.products[index]['price'].toString()),
-                trailing: IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return ProductEditPage(
-                          product: products[index],
-                          updateProduct: this.updateProduct,
-                          productIndex: index,
-                        );
-                      }));
-                    }),
-              ),
-              Divider(),
-            ])));
+      ListTile(
+        leading: CircleAvatar(
+          backgroundImage: AssetImage(products[index]['image']),
+        ),
+        title: Text(products[index]['title']),
+        subtitle: Text('\$' + this.products[index]['price'].toString()),
+        trailing: IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator
+                  .of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return ProductEditPage(
+                  product: products[index],
+                  updateProduct: this.updateProduct,
+                  productIndex: index,
+                );
+              }));
+            }),
+      ),
+      Divider(),
+    ])));
   }
 
   @override
@@ -44,7 +46,26 @@ class ProductListPage extends StatelessWidget {
         child: ListView.builder(
             itemCount: products.length,
             itemBuilder: (BuildContext context, int index) {
-              return _content(context, index);
+              // dismissible to remove the item to swipe
+              return Dismissible(
+                background: Container(color: Colors.red),
+
+                // condition when swipe
+                onDismissed: (DismissDirection direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    print('swiped end to start');
+                    this.deleteProduct(index);
+                  } else if (direction == DismissDirection.startToEnd) {
+                    print('swipe start to end');
+                  } else {
+                    print('other swipe');
+                  }
+                },
+
+                // key data and its content
+                key: Key(products[index]['title']),
+                child: _content(context, index),
+              );
             }));
   }
 }
