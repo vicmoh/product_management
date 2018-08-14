@@ -3,6 +3,7 @@ import './pages/product_admin.dart';
 import './pages/product.dart';
 import './pages/products.dart';
 import './pages/auth.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
@@ -10,6 +11,8 @@ void main() {
   // debugPaintSizeEnabled = true;
   // debugPaintBaselinesEnabled = true;
   // debugPaintPointersEnabled = true;
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(new MyApp());
 } //end main
 
