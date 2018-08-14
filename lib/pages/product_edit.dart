@@ -114,12 +114,13 @@ class _ProductEditPageState extends State<ProductEditPage> {
     // save the current data on field
     _formKey.currentState.save();
     // save it in temp to reduce redundancy
-      Product toBeAdded = new Product(
-      title: this._formData['title'],
-      description: this._formData['description'],
-      price: this._formData['price'],
-      image: this._formData['image']);
+    Product toBeAdded = new Product(
+        title: this._formData['title'],
+        description: this._formData['description'],
+        price: this._formData['price'],
+        image: this._formData['image']);
 
+    // check if updating the data or adding a new one
     if (widget.product == null) {
       // save to the map
       print("---ADDING---");
