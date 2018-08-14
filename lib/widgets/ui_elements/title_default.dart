@@ -8,8 +8,12 @@ class TitleDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    String tempTitle = "";
+    if(this.title != null){
+      tempTitle = this.title;
+    }
     return Text(
-      this.title,
+      tempTitle,
       style: TextStyle(
           fontSize: 26.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
     );

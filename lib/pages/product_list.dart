@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import './product_edit.dart';
+import '../models/product.dart';
 
 class ProductListPage extends StatelessWidget {
   final Function updateProduct;
   final Function deleteProduct;
-  final List<Map<String, dynamic>> products;
+  final List<Product> products;
   ProductListPage(this.products, this.updateProduct, this.deleteProduct);
 
   _content(BuildContext context, int index) {
     print("---PRODUCTS LIST PAGE---");
-    print("title: " + products[index]['title']);
+    print("title: " + products[index].title);
     return Container(
         // padding: EdgeInsets.only(bottom: 3.0),
         child: Container(
@@ -17,10 +18,10 @@ class ProductListPage extends StatelessWidget {
             child: Column(children: <Widget>[
       ListTile(
         leading: CircleAvatar(
-          backgroundImage: AssetImage(products[index]['image']),
+          backgroundImage: AssetImage(products[index].image),
         ),
-        title: Text(products[index]['title']),
-        subtitle: Text('\$' + this.products[index]['price'].toString()),
+        title: Text(products[index].title),
+        subtitle: Text('\$' + this.products[index].price.toString()),
         trailing: IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
@@ -63,7 +64,7 @@ class ProductListPage extends StatelessWidget {
                 },
 
                 // key data and its content
-                key: Key(products[index]['title']),
+                key: Key(products[index].title),
                 child: _content(context, index),
               );
             }));

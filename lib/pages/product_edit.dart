@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/helpers/ensure-visible.dart';
+import '../models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
-  final Map<String, dynamic> product;
+  final Product product;
   final int productIndex;
   ProductEditPage(
       {this.addProduct, this.updateProduct, this.product, this.productIndex});
@@ -82,16 +83,19 @@ class _ProductEditPageState extends State<ProductEditPage> {
   } //end modal func
 
   // textfield
-  Widget _buildTextFormField(String title, String mapDataType, int numOfLines,
-      TextInputType type, Function setter, Function validator) {
+  Widget _buildTextFormField(
+      {@required String title,
+      @required String data,
+      int numOfLines = 1,
+      TextInputType inputType = TextInputType.text,
+      @required Function setter,
+      @required Function validator}) {
     return EnsureVisibleWhenFocused(
         focusNode: this._titleFocusNode,
         child: TextFormField(
             focusNode: this._titleFocusNode,
-            initialValue: widget.product == null
-                ? ''
-                : widget.product[mapDataType].toString(),
-            keyboardType: type,
+            initialValue: data,
+            keyboardType: inputType,
             maxLines: numOfLines,
             decoration: InputDecoration(labelText: title),
             validator: validator,
@@ -107,23 +111,40 @@ class _ProductEditPageState extends State<ProductEditPage> {
   void _submitForm() {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
+    // save the current data on field
     _formKey.currentState.save();
+    // save it in temp to reduce redundancy
+      Product toBeAdded = new Product(
+      title: this._formData['title'],
+      description: this._formData['description'],
+      price: this._formData['price'],
+      image: this._formData['image']);
+
     if (widget.product == null) {
       // save to the map
       print("---ADDING---");
-      print("Title: " + this._formData['title']);
-      print("Description: " + this._formData['description']);
-      print("price: " + this._formData['price'].toString());
-      widget.addProduct(_formData);
+      print("Title: " + toBeAdded.title);
+      print("Description: " + toBeAdded.description);
+      print("price: " + toBeAdded.price.toString());
+      widget.addProduct(toBeAdded);
     } else {
       print("---UPDATING PRODUCT---");
-      widget.updateProduct(widget.productIndex, _formData);
+      widget.updateProduct(widget.productIndex, toBeAdded);
     }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
   @override
   Widget build(BuildContext context) {
+    // error check
+    Product tempProduct =
+        Product(title: "", description: "", price: 0.0, image: "");
+    var tempPrice = '';
+    if (widget.product != null) {
+      tempProduct = widget.product;
+      tempPrice = widget.product.price.toString();
+    } //end if
+
     // TODO: implement build
     final Widget pageContent = GestureDetector(
         onTap: () {
@@ -136,14 +157,25 @@ class _ProductEditPageState extends State<ProductEditPage> {
                 key: _formKey,
                 child: Column(children: <Widget>[
                   // title
-                  _buildTextFormField("Product Title", "title", 1,
-                      TextInputType.text, _setTitle, _validateString),
+                  _buildTextFormField(
+                      title: "Product Title",
+                      data: tempProduct.title,
+                      setter: _setTitle,
+                      validator: _validateString),
                   // description
-                  _buildTextFormField("Product Description", "description", 4,
-                      TextInputType.text, _setDescription, _validateString),
+                  _buildTextFormField(
+                      title: "Product Description",
+                      data: tempProduct.description,
+                      numOfLines: 4,
+                      setter: _setDescription,
+                      validator: _validateString),
                   // price
-                  _buildTextFormField("Product Price", "price", 1,
-                      TextInputType.number, _setPrice, _validateNumber),
+                  _buildTextFormField(
+                      title: "Product Price",
+                      data: tempPrice,
+                      inputType: TextInputType.number,
+                      setter: _setPrice,
+                      validator: _validateNumber),
                   // save button
                   Container(
                       padding: EdgeInsets.only(top: 15.0),
