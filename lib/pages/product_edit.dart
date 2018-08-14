@@ -25,21 +25,9 @@ class _ProductEditPageState extends State<ProductEditPage> {
   };
   final _titleFocusNode = FocusNode();
 
-  // popup modal from bottom
-  _modalShowCase(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-          child: Text("save"),
-          // sliding modal from bottom
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return Center(child: Text("This is Modal!"));
-                });
-          }),
-    );
-  } //end modal func
+  //------------------------------------------
+  // setter functions
+  //------------------------------------------
 
   _setTitle(String value) {
     this._formData['title'] = value;
@@ -52,6 +40,10 @@ class _ProductEditPageState extends State<ProductEditPage> {
   _setPrice(String value) {
     this._formData['price'] = double.tryParse(value);
   }
+
+  //------------------------------------------
+  // validator functions
+  //------------------------------------------
 
   String _validateString(String value) {
     if (value.isEmpty) {
@@ -69,29 +61,49 @@ class _ProductEditPageState extends State<ProductEditPage> {
     }
   }
 
+  //------------------------------------------
+  // widget functions
+  //------------------------------------------
+
+  // popup modal from bottom
+  Widget _modalShowCase(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+          child: Text("save"),
+          // sliding modal from bottom
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(child: Text("This is Modal!"));
+                });
+          }),
+    );
+  } //end modal func
+
   // textfield
   Widget _buildTextFormField(String title, String mapDataType, int numOfLines,
       TextInputType type, Function setter, Function validator) {
     return EnsureVisibleWhenFocused(
-      focusNode: this._titleFocusNode,
-      child: TextFormField(
         focusNode: this._titleFocusNode,
-        initialValue: widget.product == null
-            ? ''
-            : widget.product[mapDataType].toString(),
-        keyboardType: type,
-        maxLines: numOfLines,
-        decoration: InputDecoration(labelText: title),
-        validator: validator,
-        // autovalidate: true,
-        onSaved: (String value) {
-          // setState(() {
-          setter(value);
-          // });
-        }));
+        child: TextFormField(
+            focusNode: this._titleFocusNode,
+            initialValue: widget.product == null
+                ? ''
+                : widget.product[mapDataType].toString(),
+            keyboardType: type,
+            maxLines: numOfLines,
+            decoration: InputDecoration(labelText: title),
+            validator: validator,
+            // autovalidate: true,
+            onSaved: (String value) {
+              // setState(() {
+              setter(value);
+              // });
+            }));
   } //end build
 
-  // subtmit map form
+  // submit map form
   void _submitForm() {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
