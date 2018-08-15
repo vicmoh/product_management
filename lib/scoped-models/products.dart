@@ -32,6 +32,20 @@ class ProductsModel extends Model {
     _selectedProductIndex = null;
   } //end func
 
+  void toggleProductfavoriteStatus(){
+    final bool isCurrentlyFavorite = _products[_selectedProductIndex].isFavorite;
+    final bool newFavoriteStatus = !isCurrentlyFavorite;
+    final Product updateProdcut = Product(
+      title: selectedProduct.title,
+      description: selectedProduct.description,
+      price: selectedProduct.price,
+      image: selectedProduct.image,
+      isFavorite: newFavoriteStatus 
+    );
+    _products[_selectedProductIndex] = updateProdcut;
+    _selectedProductIndex = null;
+  }
+
   void updateProduct(Product product) {
     _products[this._selectedProductIndex] = product;
     _selectedProductIndex = null;
