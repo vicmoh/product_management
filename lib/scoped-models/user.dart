@@ -6,7 +6,7 @@ class UserModel extends Model{
 
   void login(String email, String password){
     _authenticatedUser = User(
-      id: "test",
+      id: "TestID",
       email: email,
       password: password,
     );

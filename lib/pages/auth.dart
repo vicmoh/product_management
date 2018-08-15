@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "./products.dart";
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped-models/main.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -29,10 +31,11 @@ class _AuthPageState extends State<StatefulWidget> {
     }
   }
 
-  _submitLogin() {
+  _submitLogin(Function login) {
     if (!_loginKey.currentState.validate()) {
       return;
     } else if (_loginData['acceptTerm'] == false) {
+      // term condition
       print("show alert:");
       showDialog(
           context: context,
@@ -51,6 +54,7 @@ class _AuthPageState extends State<StatefulWidget> {
       return;
     }
     _loginKey.currentState.save();
+    login(_loginData['email'], _loginData['password']);
     print("---LOGIN---");
     print("email: " + this._loginData['email']);
     print("password: " + this._loginData['password']);
@@ -117,15 +121,18 @@ class _AuthPageState extends State<StatefulWidget> {
                           })),
 
                   // login button
-                  Container(
-                    padding: EdgeInsets.only(top: 15.0),
-                    child: RaisedButton(
-                      child: Text("Login"),
-                      textColor: Colors.white,
-                      color: Theme.of(context).accentColor,
-                      onPressed: _submitLogin,
-                    ),
-                  ),
+                  ScopedModelDescendant<MainModel>(builder:
+                      (BuildContext context, Widget child, MainModel model) {
+                    return Container(
+                      padding: EdgeInsets.only(top: 15.0),
+                      child: RaisedButton(
+                        child: Text("Login"),
+                        textColor: Colors.white,
+                        color: Theme.of(context).accentColor,
+                        onPressed: () => _submitLogin(model.login),
+                      ),
+                    );
+                  }),
                 ]))))));
   } //login container
 
