@@ -3,6 +3,8 @@ import './price_tags.dart';
 import '../ui_elements/title_default.dart';
 import './address_tag.dart';
 import '../../models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../../scoped-models/products.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -10,13 +12,31 @@ class ProductCard extends StatelessWidget {
 
   ProductCard(this.product, this.productIndex);
 
-  Widget _buildIconButton(BuildContext context, IconData icon, Color color) {
+  Widget _buildIconButton(BuildContext context) {
     return IconButton(
-      icon: Icon(icon),
-      color: color,
+      icon: Icon(Icons.info),
+      color: Theme.of(context).accentColor,
       onPressed: () => Navigator.pushNamed<bool>(
           context, '/product/' + productIndex.toString()),
     );
+  } //end icon button build
+
+  Widget _buildFavIconButton(BuildContext context) {
+    return ScopedModelDescendant(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+
+      // return fav button
+      return IconButton(
+        icon: Icon(model.products[productIndex].isFavorite
+            ? Icons.favorite
+            : Icons.favorite_border),
+        color: Colors.red,
+        onPressed: () {
+          model.selectProduct(productIndex);
+          model.toggleProductfavoriteStatus();
+        },
+      );
+    });
   } //end icon button build
 
   @override
@@ -47,10 +67,9 @@ class ProductCard extends StatelessWidget {
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               // info button
-              _buildIconButton(
-                  context, Icons.info, Theme.of(context).accentColor),
+              _buildIconButton(context),
               // fav button
-              _buildIconButton(context, Icons.favorite_border, Colors.red),
+              _buildFavIconButton(context),
             ],
           ),
         ],

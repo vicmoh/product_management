@@ -20,16 +20,22 @@ class ProductsModel extends Model {
 
   void selectProduct(int index){
     this._selectedProductIndex = index;
+    // update and refresh: it re-render the page 
+    notifyListeners();
   }//end func
 
   void addProduct(Product product) {
     _products.add(product);
     _selectedProductIndex = null;
+    // update and refresh: it re-render the page 
+    notifyListeners();
   } //end func
 
   void deleteProduct() {
     _products.removeAt(this._selectedProductIndex);
     _selectedProductIndex = null;
+    // update and refresh: it re-render the page 
+    notifyListeners();
   } //end func
 
   void toggleProductfavoriteStatus(){
@@ -44,10 +50,14 @@ class ProductsModel extends Model {
     );
     _products[_selectedProductIndex] = updateProdcut;
     _selectedProductIndex = null;
+    // update and refresh: it re-render the page 
+    notifyListeners();
   }
 
   void updateProduct(Product product) {
     _products[this._selectedProductIndex] = product;
     _selectedProductIndex = null;
+    // update and refresh: it re-render the page 
+    notifyListeners();
   }//end func
 }//end class
