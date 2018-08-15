@@ -1,72 +1,75 @@
 import 'package:flutter/material.dart';
 import './product_edit.dart';
 import '../models/product.dart';
+import '../scoped-models/products.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductListPage extends StatelessWidget {
-  final Function updateProduct;
-  final Function deleteProduct;
-  final List<Product> products;
-  ProductListPage(this.products, this.updateProduct, this.deleteProduct);
+  Widget _buildEditButton(
+      BuildContext context, int index, ProductsModel model) {
+    // return icon button
+    return IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          model.selectProduct(index);
+          Navigator
+              .of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return ProductEditPage();
+          }));
+        });
+  } //end edit build button func
 
-  _content(BuildContext context, int index) {
+  Widget _content(BuildContext context, int index, ProductsModel model) {
     print("---PRODUCTS LIST PAGE---");
-    print("title: " + products[index].title);
+    print("title: " + model.products[index].title);
     return Container(
         // padding: EdgeInsets.only(bottom: 3.0),
         child: Container(
             // color: Colors.white,
             child: Column(children: <Widget>[
       ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(products[index].image),
-        ),
-        title: Text(products[index].title),
-        subtitle: Text('\$' + this.products[index].price.toString()),
-        trailing: IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              Navigator
-                  .of(context)
-                  .push(MaterialPageRoute(builder: (BuildContext context) {
-                return ProductEditPage(
-                  product: products[index],
-                  updateProduct: this.updateProduct,
-                  productIndex: index,
-                );
-              }));
-            }),
-      ),
+          leading: CircleAvatar(
+            backgroundImage: AssetImage(model.products[index].image),
+          ),
+          title: Text(model.products[index].title),
+          subtitle: Text('\$' + model.products[index].price.toString()),
+          trailing: _buildEditButton(context, index, model)),
       Divider(),
     ])));
-  }
+  } //end content func
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-        child: ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (BuildContext context, int index) {
-              // dismissible to remove the item to swipe
-              return Dismissible(
-                background: Container(color: Colors.red),
+    return Container(child: ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      // return the list view
+      return ListView.builder(
+          itemCount: model.selectedProductIndex,
+          itemBuilder: (BuildContext context, int index) {
+            // dismissible to remove the item to swipe
+            return Dismissible(
+              background: Container(color: Colors.red),
 
-                // condition when swipe
-                onDismissed: (DismissDirection direction) {
-                  if (direction == DismissDirection.endToStart) {
-                    print('swiped end to start');
-                    this.deleteProduct(index);
-                  } else if (direction == DismissDirection.startToEnd) {
-                    print('swipe start to end');
-                  } else {
-                    print('other swipe');
-                  }
-                },
+              // condition when swipe
+              onDismissed: (DismissDirection direction) {
+                if (direction == DismissDirection.endToStart) {
+                  print('swiped end to start');
+                  model.selectProduct(index);
+                  model.deleteProduct();
+                } else if (direction == DismissDirection.startToEnd) {
+                  print('swipe start to end');
+                } else {
+                  print('other swipe');
+                }
+              },
 
-                // key data and its content
-                key: Key(products[index].title),
-                child: _content(context, index),
-              );
-            }));
+              // key data and its content
+              key: Key(model.products[index].title),
+              child: _content(context, index, model),
+            );
+          });
+    }));
   }
 }

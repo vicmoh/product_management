@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/helpers/ensure-visible.dart';
 import '../models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped-models/products.dart';
 
 class ProductEditPage extends StatefulWidget {
-  final Function addProduct;
-  final Function updateProduct;
-  final Product product;
-  final int productIndex;
-  ProductEditPage(
-      {this.addProduct, this.updateProduct, this.product, this.productIndex});
-
   @override
   State<StatefulWidget> createState() {
     return _ProductEditPageState();
@@ -107,8 +102,24 @@ class _ProductEditPageState extends State<ProductEditPage> {
             }));
   } //end build
 
+  Widget _buildSubmitButton(){
+    return ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model){
+
+        // return widget
+        return Container(
+            padding: EdgeInsets.only(top: 15.0),
+            child: RaisedButton(
+                textColor: Colors.white,
+                color: Theme.of(context).accentColor,
+                child: Text("Save"),
+                onPressed: () => _submitForm(model.addProduct, model)));
+      }//end model
+    );
+  }//end build submit button func
+
   // submit map form
-  void _submitForm() {
+  void _submitForm(Function addProduct, ProductsModel model) {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
     // save the current data on field
@@ -121,33 +132,32 @@ class _ProductEditPageState extends State<ProductEditPage> {
         image: this._formData['image']);
 
     // check if updating the data or adding a new one
-    if (widget.product == null) {
+    if (model.selectedProductIndex == null) {
       // save to the map
       print("---ADDING---");
       print("Title: " + toBeAdded.title);
       print("Description: " + toBeAdded.description);
       print("price: " + toBeAdded.price.toString());
-      widget.addProduct(toBeAdded);
+      model.addProduct(toBeAdded);
     } else {
       print("---UPDATING PRODUCT---");
-      widget.updateProduct(widget.productIndex, toBeAdded);
+      model.updateProduct(toBeAdded);
     }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPageContent(BuildContext context, Product product){
     // error check
     Product tempProduct =
         Product(title: "", description: "", price: 0.0, image: "");
     var tempPrice = '';
-    if (widget.product != null) {
-      tempProduct = widget.product;
-      tempPrice = widget.product.price.toString();
+    if (product != null) {
+      tempProduct = product;
+      tempPrice = product.price.toString();
     } //end if
 
-    // TODO: implement build
-    final Widget pageContent = GestureDetector(
+    // return the page
+    return GestureDetector(
         onTap: () {
           // IMPORTANT: gesture to put keyboard down when clicked
           FocusScope.of(context).requestFocus(FocusNode());
@@ -178,15 +188,17 @@ class _ProductEditPageState extends State<ProductEditPage> {
                       setter: _setPrice,
                       validator: _validateNumber),
                   // save button
-                  Container(
-                      padding: EdgeInsets.only(top: 15.0),
-                      child: RaisedButton(
-                          textColor: Colors.white,
-                          color: Theme.of(context).accentColor,
-                          child: Text("Save"),
-                          onPressed: _submitForm)),
+                  _buildSubmitButton(),
                 ]))));
-    return widget.product == null
+  }//end build content func
+
+  @override
+  Widget build(BuildContext context) {
+    // return the page
+    return ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model){
+        final Widget pageContent = _buildPageContent(context, model.selectedProduct);
+        return model.selectedProductIndex == null
         ? pageContent
         : Scaffold(
             appBar: AppBar(
@@ -194,5 +206,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
             ),
             body: pageContent,
           );
+      }
+    );
+    
   }
 }

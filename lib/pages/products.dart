@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/products/products.dart';
 import '../widgets/ui_elements/drawers.dart';
-import '.././models/product.dart';
 
 class ProductsPage extends StatelessWidget {
-  final List<Product> products;
-  // final Function addProduct;
-  // final Function deleteProduct;
-
-  ProductsPage(this.products);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +22,7 @@ class ProductsPage extends StatelessWidget {
       ),
 
       // body
-      body: Products(this.products),
+      body: Products(),
     );
   }
 }
