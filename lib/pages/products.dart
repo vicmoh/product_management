@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/products/products.dart';
 import '../widgets/ui_elements/drawers.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped-models/products.dart';
 
 class ProductsPage extends StatelessWidget {
   @override
@@ -13,10 +15,18 @@ class ProductsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Easy List"),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () {},
-          ),
+          ScopedModelDescendant(builder:
+              (BuildContext context, Widget child, ProductsModel model) {
+            //return icon button on app bar
+            return IconButton(
+              icon: Icon(model.displayFavoriteOnly
+                  ? Icons.favorite
+                  : Icons.favorite_border),
+              onPressed: () {
+                model.toggleDisplayMode();
+              },
+            );
+          }),
         ],
         centerTitle: false,
       ),

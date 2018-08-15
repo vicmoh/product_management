@@ -4,8 +4,16 @@ import '../models/product.dart';
 class ProductsModel extends Model {
   List<Product> _products = [];
   int _selectedProductIndex;
+  bool _showFavorites = false;
 
   List<Product> get products {
+    return List.from(_products);
+  }//end func
+
+  List<Product> get displayProducts {
+    if(_showFavorites){  
+      return _products.where((Product product) => product.isFavorite).toList();
+    }
     return List.from(_products);
   }//end func
 
@@ -14,9 +22,9 @@ class ProductsModel extends Model {
     return _products[_selectedProductIndex];
   }//end func
 
-  int get selectedProductIndex{
-    return _selectedProductIndex;
-  }//end func
+  bool get displayFavoriteOnly => _showFavorites;
+
+  int get selectedProductIndex => _selectedProductIndex;
 
   void selectProduct(int index){
     this._selectedProductIndex = index;
@@ -50,6 +58,12 @@ class ProductsModel extends Model {
     );
     _products[_selectedProductIndex] = updateProdcut;
     _selectedProductIndex = null;
+    // update and refresh: it re-render the page 
+    notifyListeners();
+  }//end func
+
+  void toggleDisplayMode(){
+    _showFavorites = !_showFavorites;
     // update and refresh: it re-render the page 
     notifyListeners();
   }
