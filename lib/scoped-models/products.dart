@@ -57,7 +57,6 @@ class ProductsModel extends Model {
       isFavorite: newFavoriteStatus 
     );
     _products[_selectedProductIndex] = updateProdcut;
-    _selectedProductIndex = null;
     // update and refresh: it re-render the page 
     notifyListeners();
     // section 11, lect 157

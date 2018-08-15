@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/helpers/ensure-visible.dart';
 import '../models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped-models/products.dart';
+import '../scoped-models/main.dart';
 
 class ProductEditPage extends StatefulWidget {
   @override
@@ -103,8 +103,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
   } //end build
 
   Widget _buildSubmitButton(){
-    return ScopedModelDescendant<ProductsModel>(
-      builder: (BuildContext context, Widget child, ProductsModel model){
+    return ScopedModelDescendant<MainModel>(
+      builder: (BuildContext context, Widget child, MainModel model){
 
         // return widget
         return Container(
@@ -119,7 +119,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   }//end build submit button func
 
   // submit map form
-  void _submitForm(Function addProduct, ProductsModel model) {
+  void _submitForm(Function addProduct, MainModel model) {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
     // save the current data on field
@@ -195,8 +195,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
   @override
   Widget build(BuildContext context) {
     // return the page
-    return ScopedModelDescendant<ProductsModel>(
-      builder: (BuildContext context, Widget child, ProductsModel model){
+    return ScopedModelDescendant<MainModel>(
+      builder: (BuildContext context, Widget child, MainModel model){
         final Widget pageContent = _buildPageContent(context, model.selectedProduct);
         return model.selectedProductIndex == null
         ? pageContent

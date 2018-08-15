@@ -4,7 +4,7 @@ import '../ui_elements/title_default.dart';
 import './address_tag.dart';
 import '../../models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../../scoped-models/products.dart';
+import '../../scoped-models/main.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -22,8 +22,8 @@ class ProductCard extends StatelessWidget {
   } //end icon button build
 
   Widget _buildFavIconButton(BuildContext context) {
-    return ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
 
       // return fav button
       return IconButton(

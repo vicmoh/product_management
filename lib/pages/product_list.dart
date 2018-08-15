@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import './product_edit.dart';
 import '../models/product.dart';
-import '../scoped-models/products.dart';
+import '../scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductListPage extends StatelessWidget {
   Widget _buildEditButton(
-      BuildContext context, int index, ProductsModel model) {
+      BuildContext context, int index, MainModel model) {
     // return icon button
     return IconButton(
         icon: Icon(Icons.edit),
@@ -20,7 +20,7 @@ class ProductListPage extends StatelessWidget {
         });
   } //end edit build button func
 
-  Widget _content(BuildContext context, int index, ProductsModel model) {
+  Widget _content(BuildContext context, int index, MainModel model) {
     print("---PRODUCTS LIST PAGE---");
     print("title: " + model.products[index].title);
     return Container(
@@ -42,8 +42,8 @@ class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(child: ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return Container(child: ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
       // return the list view
       return ListView.builder(
           itemCount: model.products.length,

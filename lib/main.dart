@@ -6,6 +6,7 @@ import './pages/auth.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
 import './scoped-models/products.dart';
+import './scoped-models/main.dart';
 // import 'package:flutter/rendering.dart';
 
 /// main to run the app
@@ -28,8 +29,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<ProductsModel>(
-      model: ProductsModel(),
+    return ScopedModel<MainModel>(
+      model: MainModel(),
       child: MaterialApp(
       // list of routes
       routes: {
