@@ -46,7 +46,7 @@ class ProductsModel extends Model {
     notifyListeners();
   } //end func
 
-  void toggleProductfavoriteStatus(){
+  void toggleProductFavoriteStatus(){
     final bool isCurrentlyFavorite = _products[_selectedProductIndex].isFavorite;
     final bool newFavoriteStatus = !isCurrentlyFavorite;
     final Product updateProdcut = Product(
@@ -60,6 +60,8 @@ class ProductsModel extends Model {
     _selectedProductIndex = null;
     // update and refresh: it re-render the page 
     notifyListeners();
+    // section 11, lect 157
+    _selectedProductIndex = null;
   }//end func
 
   void toggleDisplayMode(){
