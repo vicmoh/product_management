@@ -46,7 +46,7 @@ class ProductListPage extends StatelessWidget {
         builder: (BuildContext context, Widget child, ProductsModel model) {
       // return the list view
       return ListView.builder(
-          itemCount: model.selectedProductIndex,
+          itemCount: model.products.length,
           itemBuilder: (BuildContext context, int index) {
             // dismissible to remove the item to swipe
             return Dismissible(

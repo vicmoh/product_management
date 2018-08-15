@@ -53,7 +53,7 @@ class _AuthPageState extends State<StatefulWidget> {
     _loginKey.currentState.save();
     print("---LOGIN---");
     print("email: " + this._loginData['email']);
-    print("password: " + this._loginData['email']);
+    print("password: " + this._loginData['password']);
     Navigator.pushReplacementNamed(context, '/products');
   }
 
