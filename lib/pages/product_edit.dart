@@ -60,21 +60,21 @@ class _ProductEditPageState extends State<ProductEditPage> {
   // widget functions
   //------------------------------------------
 
-  // // popup modal from bottom
-  // Widget _modalShowCase(BuildContext context) {
-  //   return Center(
-  //     child: RaisedButton(
-  //         child: Text("save"),
-  //         // sliding modal from bottom
-  //         onPressed: () {
-  //           showModalBottomSheet(
-  //               context: context,
-  //               builder: (BuildContext context) {
-  //                 return Center(child: Text("This is Modal!"));
-  //               });
-  //         }),
-  //   );
-  // } //end modal func
+  // popup modal from bottom
+  Widget _modalShowCase(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+          child: Text("save"),
+          // sliding modal from bottom
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Center(child: Text("This is Modal!"));
+                });
+          }),
+    );
+  } //end modal func
 
   // textfield
   Widget _buildTextFormField(
