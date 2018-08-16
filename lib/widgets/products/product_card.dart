@@ -3,8 +3,8 @@ import './price_tags.dart';
 import '../ui_elements/title_default.dart';
 import './address_tag.dart';
 import '../../models/product.dart';
-import 'package:scoped_model/scoped_model.dart';
 import '../../scoped-models/main.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
