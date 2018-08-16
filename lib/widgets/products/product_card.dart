@@ -63,6 +63,7 @@ class ProductCard extends StatelessWidget {
           AddressTag("Union Square, San Fransisco"),
 
           // user email
+          SizedBox(height: 5.0),
           Text(product.userEmail),
 
           // detail button
