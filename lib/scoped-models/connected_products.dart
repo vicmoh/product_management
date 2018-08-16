@@ -58,8 +58,8 @@ class ProductsModel extends ConnectedProductsModel {
 
   void deleteProduct() {
     _products.removeAt(selectedProductIndex);
-    _selProductIndex = null;
     // update and refresh: it re-render the page
+    _selProductIndex = null;
     notifyListeners();
   } //end func
 
@@ -82,6 +82,7 @@ class ProductsModel extends ConnectedProductsModel {
   void toggleDisplayMode() {
     _showFavorites = !_showFavorites;
     // update and refresh: it re-render the page
+    this.selectProduct(null);
     notifyListeners();
   }
 

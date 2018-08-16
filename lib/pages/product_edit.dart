@@ -163,7 +163,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
           // exit the alert
           if (isItCloseButton == true) {
             Navigator.pop(context);
-            model.selectProduct(null);
+            // model.selectProduct(null);
           } else {
             Navigator.pop(context);
             Navigator
