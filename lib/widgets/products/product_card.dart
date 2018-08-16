@@ -11,7 +11,7 @@ class ProductCard extends StatelessWidget {
   final int productIndex;
 
   ProductCard(this.product, this.productIndex);
-
+  
   Widget _buildIconButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.info),

@@ -48,11 +48,11 @@ class ProductListPage extends StatelessWidget {
         builder: (BuildContext context, Widget child, MainModel model) {
     
       // show empty list
-      if(model.allProducts.length == 0){
-        return Container(
-          child: Center(child: Text("List empty", textScaleFactor: 1.3))
-        );
-      }
+      var emptyListText = Container(
+        child: Center(child: Text("List empty", textScaleFactor: 1.3))
+      );
+      if(model.allProducts == null) return emptyListText;
+      if(model.allProducts.length == 0) return emptyListText;
       
       // return the list view
       return ListView.builder(
@@ -61,7 +61,7 @@ class ProductListPage extends StatelessWidget {
             // dismissible to remove the item to swipe
             return Dismissible(
               background: Container(color: Colors.red),
-
+        
               // condition when swipe
               onDismissed: (DismissDirection direction) {
                 if (direction == DismissDirection.endToStart) {
