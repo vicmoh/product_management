@@ -102,21 +102,20 @@ class _ProductEditPageState extends State<ProductEditPage> {
             }));
   } //end build
 
-  Widget _buildSubmitButton(){
+  Widget _buildSubmitButton() {
     return ScopedModelDescendant<MainModel>(
-      builder: (BuildContext context, Widget child, MainModel model){
-
-        // return widget
-        return Container(
-            padding: EdgeInsets.only(top: 15.0),
-            child: RaisedButton(
-                textColor: Colors.white,
-                color: Theme.of(context).accentColor,
-                child: Text("Save"),
-                onPressed: () => _submitForm(model.addProduct, model)));
-      }//end model
-    );
-  }//end build submit button func
+        builder: (BuildContext context, Widget child, MainModel model) {
+      // return widget
+      return Container(
+          padding: EdgeInsets.only(top: 15.0),
+          child: RaisedButton(
+              textColor: Colors.white,
+              color: Theme.of(context).accentColor,
+              child: Text("Save"),
+              onPressed: () => _submitForm(model.addProduct, model)));
+    } //end model
+        );
+  } //end build submit button func
 
   // submit map form
   void _submitForm(Function addProduct, MainModel model) {
@@ -124,29 +123,33 @@ class _ProductEditPageState extends State<ProductEditPage> {
     if (!_formKey.currentState.validate()) return;
     // save the current data on field
     _formKey.currentState.save();
-    // save it in temp to reduce redundancy
-    Product toBeAdded = new Product(
-        title: this._formData['title'],
-        description: this._formData['description'],
-        price: this._formData['price'],
-        image: this._formData['image']);
 
     // check if updating the data or adding a new one
     if (model.selectedProductIndex == null) {
       // save to the map
       print("---ADDING---");
-      print("Title: " + toBeAdded.title);
-      print("Description: " + toBeAdded.description);
-      print("price: " + toBeAdded.price.toString());
-      model.addProduct(toBeAdded);
+      print("Title: " + _formData['title']);
+      print("Description: " + _formData['description']);
+      print("price: " + _formData['price'].toString());
+      model.addProduct(
+        _formData['title'],
+        _formData['description'],
+        _formData['image'],
+        _formData['price'],
+      );
     } else {
       print("---UPDATING PRODUCT---");
-      model.updateProduct(toBeAdded);
+      model.updateProduct(
+        _formData['title'],
+        _formData['description'],
+        _formData['image'],
+        _formData['price'],
+      );
     }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
-  Widget _buildPageContent(BuildContext context, Product product){
+  Widget _buildPageContent(BuildContext context, Product product) {
     // error check
     Product tempProduct =
         Product(title: "", description: "", price: 0.0, image: "");
@@ -190,24 +193,23 @@ class _ProductEditPageState extends State<ProductEditPage> {
                   // save button
                   _buildSubmitButton(),
                 ]))));
-  }//end build content func
+  } //end build content func
 
   @override
   Widget build(BuildContext context) {
     // return the page
     return ScopedModelDescendant<MainModel>(
-      builder: (BuildContext context, Widget child, MainModel model){
-        final Widget pageContent = _buildPageContent(context, model.selectedProduct);
-        return model.selectedProductIndex == null
-        ? pageContent
-        : Scaffold(
-            appBar: AppBar(
-              title: Text('Edit Product'),
-            ),
-            body: pageContent,
-          );
-      }
-    );
-    
+        builder: (BuildContext context, Widget child, MainModel model) {
+      final Widget pageContent =
+          _buildPageContent(context, model.selectedProduct);
+      return model.selectedProductIndex == null
+          ? pageContent
+          : Scaffold(
+              appBar: AppBar(
+                title: Text('Edit Product'),
+              ),
+              body: pageContent,
+            );
+    });
   }
 }

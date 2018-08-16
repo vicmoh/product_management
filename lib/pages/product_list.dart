@@ -22,7 +22,7 @@ class ProductListPage extends StatelessWidget {
 
   Widget _content(BuildContext context, int index, MainModel model) {
     print("---PRODUCTS LIST PAGE---");
-    print("title: " + model.products[index].title);
+    print("title: " + model.allProducts[index].title);
     return Container(
         // padding: EdgeInsets.only(bottom: 3.0),
         child: Container(
@@ -30,10 +30,10 @@ class ProductListPage extends StatelessWidget {
             child: Column(children: <Widget>[
       ListTile(
           leading: CircleAvatar(
-            backgroundImage: AssetImage(model.products[index].image),
+            backgroundImage: AssetImage(model.allProducts[index].image),
           ),
-          title: Text(model.products[index].title),
-          subtitle: Text('\$' + model.products[index].price.toString()),
+          title: Text(model.allProducts[index].title),
+          subtitle: Text('\$' + model.allProducts[index].price.toString()),
           trailing: _buildEditButton(context, index, model)),
       Divider(),
     ])));
@@ -46,7 +46,7 @@ class ProductListPage extends StatelessWidget {
         builder: (BuildContext context, Widget child, MainModel model) {
       // return the list view
       return ListView.builder(
-          itemCount: model.products.length,
+          itemCount: model.allProducts.length,
           itemBuilder: (BuildContext context, int index) {
             // dismissible to remove the item to swipe
             return Dismissible(
@@ -66,7 +66,7 @@ class ProductListPage extends StatelessWidget {
               },
 
               // key data and its content
-              key: Key(model.products[index].title),
+              key: Key(model.allProducts[index].title),
               child: _content(context, index, model),
             );
           });

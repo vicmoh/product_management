@@ -62,6 +62,9 @@ class ProductCard extends StatelessWidget {
           // address
           AddressTag("Union Square, San Fransisco"),
 
+          // user email
+          Text(product.userEmail),
+
           // detail button
           ButtonBar(
             alignment: MainAxisAlignment.center,
