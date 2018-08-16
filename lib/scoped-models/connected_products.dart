@@ -53,7 +53,7 @@ class ProductsModel extends ConnectedProductsModel {
   void selectProduct(int index) {
     _selProductIndex = index;
     // update and refresh: it re-render the page
-    notifyListeners();
+     if(_selProductIndex != null) notifyListeners();
   } //end funcs
 
   void deleteProduct() {

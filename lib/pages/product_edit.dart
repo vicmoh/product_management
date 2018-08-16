@@ -150,9 +150,9 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildPageContent(BuildContext context, Product product) {
     // error check
     Product tempProduct = Product(
-      title: "", 
-      description: "", 
-      price: 0.0, 
+      title: "",
+      description: "",
+      price: 0.0,
       image: "",
       userId: "",
       userEmail: "",
@@ -199,6 +199,15 @@ class _ProductEditPageState extends State<ProductEditPage> {
                 ]))));
   } //end build content func
 
+  _buildEditPageVersion(BuildContext context, Widget content) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Product'),
+      ),
+      body: content,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // return the page
@@ -208,12 +217,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
           _buildPageContent(context, model.selectedProduct);
       return model.selectedProductIndex == null
           ? pageContent
-          : Scaffold(
-              appBar: AppBar(
-                title: Text('Edit Product'),
-              ),
-              body: pageContent,
-            );
+          : _buildEditPageVersion(context, pageContent);
     });
   }
 }
