@@ -23,7 +23,7 @@ class _AuthPageState extends State<StatefulWidget> {
     this._loginData['password'] = value;
   }
 
-  String _validataString(String toBeValidate) {
+  String _validateString(String toBeValidate) {
     if (toBeValidate.isEmpty) {
       return 'Required';
     } else {
@@ -76,7 +76,7 @@ class _AuthPageState extends State<StatefulWidget> {
         obscureText: isObscure,
         decoration: InputDecoration(
             labelText: label, filled: true, fillColor: Colors.white),
-        validator: _validataString,
+        validator: _validateString,
         onSaved: (value) {
           setter(value);
         });
