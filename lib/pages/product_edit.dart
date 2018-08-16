@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/helpers/ensure-visible.dart';
+// import '../widgets/helpers/ensure-visible.dart';
 import '../models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../scoped-models/main.dart';
@@ -19,7 +19,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
     'price': null,
     'image': 'assets/food.jpg'
   };
-  final _titleFocusNode = FocusNode();
 
   //------------------------------------------
   // setter functions
@@ -61,21 +60,21 @@ class _ProductEditPageState extends State<ProductEditPage> {
   // widget functions
   //------------------------------------------
 
-  // popup modal from bottom
-  Widget _modalShowCase(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-          child: Text("save"),
-          // sliding modal from bottom
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return Center(child: Text("This is Modal!"));
-                });
-          }),
-    );
-  } //end modal func
+  // // popup modal from bottom
+  // Widget _modalShowCase(BuildContext context) {
+  //   return Center(
+  //     child: RaisedButton(
+  //         child: Text("save"),
+  //         // sliding modal from bottom
+  //         onPressed: () {
+  //           showModalBottomSheet(
+  //               context: context,
+  //               builder: (BuildContext context) {
+  //                 return Center(child: Text("This is Modal!"));
+  //               });
+  //         }),
+  //   );
+  // } //end modal func
 
   // textfield
   Widget _buildTextFormField(
@@ -86,7 +85,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
       @required Function setter,
       @required Function validator}) {
     return TextFormField(
-        focusNode: this._titleFocusNode,
         initialValue: data,
         keyboardType: inputType,
         maxLines: numOfLines,
@@ -151,8 +149,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildPageContent(BuildContext context, Product product) {
     // error check
-    Product tempProduct =
-        Product(title: "", description: "", price: 0.0, image: "");
+    Product tempProduct = Product(
+      title: "", 
+      description: "", 
+      price: 0.0, 
+      image: "",
+      userId: "",
+      userEmail: "",
+    );
     var tempPrice = '';
     if (product != null) {
       tempProduct = product;
