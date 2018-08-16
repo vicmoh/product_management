@@ -13,6 +13,9 @@ class ProductEditPage extends StatefulWidget {
 
 class _ProductEditPageState extends State<ProductEditPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
   final Map<String, dynamic> _formData = {
     'title': null,
     'description': null,
@@ -83,9 +86,11 @@ class _ProductEditPageState extends State<ProductEditPage> {
       int numOfLines = 1,
       TextInputType inputType = TextInputType.text,
       @required Function setter,
-      @required Function validator}) {
+      @required Function validator,
+      TextEditingController controller}) {
     return TextFormField(
-        initialValue: data,
+        controller: controller,
+        // initialValue: data,
         keyboardType: inputType,
         maxLines: numOfLines,
         decoration: InputDecoration(labelText: title),
@@ -98,7 +103,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
         });
   } //end build
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       // return widget
@@ -108,13 +113,13 @@ class _ProductEditPageState extends State<ProductEditPage> {
               textColor: Colors.white,
               color: Theme.of(context).accentColor,
               child: Text("Save"),
-              onPressed: () => _submitForm(model.addProduct, model)));
+              onPressed: () => _submitForm(model.addProduct, model, context)));
     } //end model
         );
   } //end build submit button func
 
   // submit map form
-  void _submitForm(Function addProduct, MainModel model) {
+  void _submitForm(Function addProduct, MainModel model, BuildContext context) {
     // when all form is okay
     if (!_formKey.currentState.validate()) return;
     // save the current data on field
@@ -142,10 +147,45 @@ class _ProductEditPageState extends State<ProductEditPage> {
         _formData['price'],
       );
     }
-    Navigator
-        .pushReplacementNamed(context, '/products')
-        .then((_) => model.selectProduct(null));
-  }
+    // Navigator
+    //     .pushReplacementNamed(context, '/products')
+    //     .then((_) => model.selectProduct(null));
+
+    // action button for dialog
+    Widget actionButtonForDiablog(String text, bool isItCloseButton) {
+      return FlatButton(
+        child: Text(text),
+        onPressed: () {
+          // set the text empty
+          _titleController.text = "";
+          _descriptionController.text = "";
+          _priceController.text = "";
+          // exit the alert
+          if (isItCloseButton == true) {
+            Navigator.pop(context);
+            model.selectProduct(null);
+          } else {
+            Navigator.pop(context);
+            Navigator
+                .pushReplacementNamed(context, '/products')
+                .then((_) => model.selectProduct(null));
+          }
+        },
+      );
+    }
+
+    // show a saved alert
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text("Feedback"),
+              content: Text("The product has been saved."),
+              actions: <Widget>[
+                actionButtonForDiablog("Go to home", false),
+                actionButtonForDiablog("Stay here", true),
+              ],
+            ));
+  } //end submit form func
 
   Widget _buildPageContent(BuildContext context, Product product) {
     // error check
@@ -158,8 +198,13 @@ class _ProductEditPageState extends State<ProductEditPage> {
       userEmail: "",
     );
     var tempPrice = '';
+    // check if edit page or create
+    // if not null, it is edit page
     if (product != null) {
       tempProduct = product;
+      _titleController.text = product.title;
+      _descriptionController.text = product.description;
+      _priceController.text = product.price.toString();
       tempPrice = product.price.toString();
     } //end if
 
@@ -179,23 +224,26 @@ class _ProductEditPageState extends State<ProductEditPage> {
                       title: "Product Title",
                       data: tempProduct.title,
                       setter: _setTitle,
-                      validator: _validateString),
+                      validator: _validateString,
+                      controller: _titleController),
                   // description
                   _buildTextFormField(
                       title: "Product Description",
                       data: tempProduct.description,
                       numOfLines: 4,
                       setter: _setDescription,
-                      validator: _validateString),
+                      validator: _validateString,
+                      controller: _descriptionController),
                   // price
                   _buildTextFormField(
                       title: "Product Price",
                       data: tempPrice,
                       inputType: TextInputType.number,
                       setter: _setPrice,
-                      validator: _validateNumber),
+                      validator: _validateNumber,
+                      controller: _priceController),
                   // save button
-                  _buildSubmitButton(),
+                  _buildSubmitButton(context),
                 ]))));
   } //end build content func
 
