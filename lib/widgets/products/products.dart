@@ -15,7 +15,9 @@ class Products extends StatelessWidget {
         itemCount: products.length,
       );
     } else {
-      productCards = Container();
+      productCards = Container(
+        child: Center(child: Text("List empty", textScaleFactor: 1.3))
+      );
     }
     return productCards;
   } //end func

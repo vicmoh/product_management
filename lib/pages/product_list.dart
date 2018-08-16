@@ -46,6 +46,14 @@ class ProductListPage extends StatelessWidget {
     // TODO: implement build
     return Container(child: ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
+    
+      // show empty list
+      if(model.allProducts.length == 0){
+        return Container(
+          child: Center(child: Text("List empty", textScaleFactor: 1.3))
+        );
+      }
+      
       // return the list view
       return ListView.builder(
           itemCount: model.allProducts.length,
