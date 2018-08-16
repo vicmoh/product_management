@@ -85,21 +85,19 @@ class _ProductEditPageState extends State<ProductEditPage> {
       TextInputType inputType = TextInputType.text,
       @required Function setter,
       @required Function validator}) {
-    return EnsureVisibleWhenFocused(
+    return TextFormField(
         focusNode: this._titleFocusNode,
-        child: TextFormField(
-            focusNode: this._titleFocusNode,
-            initialValue: data,
-            keyboardType: inputType,
-            maxLines: numOfLines,
-            decoration: InputDecoration(labelText: title),
-            validator: validator,
-            // autovalidate: true,
-            onSaved: (String value) {
-              // setState(() {
-              setter(value);
-              // });
-            }));
+        initialValue: data,
+        keyboardType: inputType,
+        maxLines: numOfLines,
+        decoration: InputDecoration(labelText: title),
+        validator: validator,
+        // autovalidate: true,
+        onSaved: (String value) {
+          // setState(() {
+          setter(value);
+          // });
+        });
   } //end build
 
   Widget _buildSubmitButton() {
@@ -146,7 +144,9 @@ class _ProductEditPageState extends State<ProductEditPage> {
         _formData['price'],
       );
     }
-    Navigator.pushReplacementNamed(context, '/products');
+    Navigator
+        .pushReplacementNamed(context, '/products')
+        .then((_) => model.selectProduct(null));
   }
 
   Widget _buildPageContent(BuildContext context, Product product) {

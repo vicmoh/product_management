@@ -57,10 +57,10 @@ class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
 
     final RenderObject object = context.findRenderObject();
     final RenderAbstractViewport viewport = RenderAbstractViewport.of(object);
-    assert(viewport != null);
+    // assert(viewport != null);
 
     ScrollableState scrollableState = Scrollable.of(context);
-    assert(scrollableState != null);
+    // assert(scrollableState != null);
 
     ScrollPosition position = scrollableState.position;
     double alignment;

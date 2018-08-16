@@ -5,7 +5,6 @@ import './pages/products.dart';
 import './pages/auth.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
-import './scoped-models/products.dart';
 import './scoped-models/main.dart';
 // import 'package:flutter/rendering.dart';
 
