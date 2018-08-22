@@ -147,9 +147,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
         _formData['price'],
       );
     }
-    // Navigator
-    //     .pushReplacementNamed(context, '/products')
-    //     .then((_) => model.selectProduct(null));
 
     // action button for dialog
     Widget actionButtonForDiablog(String text, bool isItCloseButton) {
