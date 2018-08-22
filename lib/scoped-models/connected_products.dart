@@ -1,4 +1,5 @@
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import '../models/user.dart';
 
@@ -7,8 +8,14 @@ class ConnectedProductsModel extends Model {
   User _authenticatedUser;
   int _selProductIndex;
 
-  void addProduct(
-      String title, String description, String image, double price) {
+  void addProduct(String title, String description, String image, double price) {
+
+    final Map<String, dynamic> productData = {
+      'title': title,
+      'description': description,
+    }; 
+    http.post('https://flutter-products-20260.firebaseio.com/products.json');
+
     final Product newProduct = Product(
       title: title,
       description: description,
