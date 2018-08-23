@@ -108,7 +108,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       // return widget
       return model.isLoading
-          ? CircularProgressIndicator()
+          ? Center(child: CircularProgressIndicator())
           : Container(
               padding: EdgeInsets.only(top: 15.0),
               child: RaisedButton(

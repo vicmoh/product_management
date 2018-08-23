@@ -14,6 +14,7 @@ class ConnectedProductsModel extends Model {
   Future<Null> addProduct(
       String title, String description, String image, double price) {
     _isLoading = true;
+    notifyListeners();
     // post to firebase
     final Map<String, dynamic> productData = {
       'title': title,
