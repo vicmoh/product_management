@@ -187,6 +187,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildPageContent(BuildContext context, Product product) {
     // error check
     Product tempProduct = Product(
+      id: "",
       title: "",
       description: "",
       price: 0.0,
