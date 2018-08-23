@@ -24,7 +24,7 @@ class ProductCard extends StatelessWidget {
   Widget _buildFavIconButton(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
-
+        
       // return fav button
       return IconButton(
         icon: Icon(model.allProducts[productIndex].isFavorite
@@ -45,8 +45,9 @@ class ProductCard extends StatelessWidget {
     return Card(
       child: Column(
         children: <Widget>[
-          // image
-          Image.asset(product.image),
+          // image, change from asets to network
+          // because we are using the image from online now
+          Image.network(product.image),
           SizedBox(height: 15.0),
 
           // food type and price

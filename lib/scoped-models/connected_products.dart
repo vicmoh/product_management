@@ -9,17 +9,23 @@ class ConnectedProductsModel extends Model {
   User _authenticatedUser;
   int _selProductIndex;
 
-  void addProduct(String title, String description, String image, double price) {
-
+  void addProduct(
+      String title, String description, String image, double price) {
     // post to firebase
     final Map<String, dynamic> productData = {
       'title': title,
       'description': description,
-      'image': 'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
-      'price': price
-    }; 
-    http.post('https://flutter-products-20260.firebaseio.com/products.json', body: json.encode(productData)).then((http.Response response){
-      final Map<String, dynamic> responseData  = json.decode(response.body);
+      'image':
+          'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
+      'price': price,
+      'userEmail': _authenticatedUser.email,
+      'userId': _authenticatedUser.id
+    };
+    http
+        .post('https://flutter-products-20260.firebaseio.com/products.json',
+            body: json.encode(productData))
+        .then((http.Response response) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
       print(responseData);
       final Product newProduct = Product(
         id: responseData['name'],
@@ -35,7 +41,7 @@ class ConnectedProductsModel extends Model {
       notifyListeners();
     });
   } //end func
-}//end class
+} //end class
 
 class ProductsModel extends ConnectedProductsModel {
   bool _showFavorites = false;
@@ -67,7 +73,7 @@ class ProductsModel extends ConnectedProductsModel {
   void selectProduct(int index) {
     _selProductIndex = index;
     // update and refresh: it re-render the page
-     if(_selProductIndex != null) notifyListeners();
+    if (_selProductIndex != null) notifyListeners();
   } //end funcs
 
   void deleteProduct() {
@@ -77,9 +83,28 @@ class ProductsModel extends ConnectedProductsModel {
     notifyListeners();
   } //end func
 
-  void fetchProducts(){
-    http.get('https://flutter-products-20260.firebaseio.com/products.json').then((http.Response response){
+  void fetchProducts() {
+    http
+        .get('https://flutter-products-20260.firebaseio.com/products.json')
+        .then((http.Response response) {
       print(json.decode(response.body));
+      final List<Product> fetchedProductList = [];
+      final Map<String, dynamic> productListData =
+          json.decode(response.body);
+      productListData
+          .forEach((String productId, dynamic productData) {
+        final Product product = Product(
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            image: productData['image'],
+            price: productData['price'],
+            userEmail: productData['userEmail'],
+            userId: productData['userId']);
+        fetchedProductList.add(product);
+      });
+      _products = fetchedProductList;
+      notifyListeners();
     });
   }
 

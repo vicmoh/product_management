@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       // when route doesnt exist go to default
       onUnknownRoute: (RouteSettings setting) {
         return MaterialPageRoute(
-            builder: (BuildContext context) => ProductsPage());
+            builder: (BuildContext context) => ProductsPage(model));
       },
 
       // theme and setting
