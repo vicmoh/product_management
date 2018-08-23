@@ -3,14 +3,17 @@ import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import '../models/user.dart';
 import 'dart:convert';
+import 'dart:async';
 
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
   User _authenticatedUser;
   int _selProductIndex;
+  bool _isLoading = false;
 
-  void addProduct(
+  Future<Null> addProduct(
       String title, String description, String image, double price) {
+    _isLoading = true;
     // post to firebase
     final Map<String, dynamic> productData = {
       'title': title,
@@ -21,7 +24,7 @@ class ConnectedProductsModel extends Model {
       'userEmail': _authenticatedUser.email,
       'userId': _authenticatedUser.id
     };
-    http
+    return http
         .post('https://flutter-products-20260.firebaseio.com/products.json',
             body: json.encode(productData))
         .then((http.Response response) {
@@ -38,6 +41,7 @@ class ConnectedProductsModel extends Model {
       );
       _products.add(newProduct);
       // update and refresh: it re-render the page
+      _isLoading = false;
       notifyListeners();
     });
   } //end func
@@ -84,15 +88,25 @@ class ProductsModel extends ConnectedProductsModel {
   } //end func
 
   void fetchProducts() {
+    _isLoading = true;
     http
         .get('https://flutter-products-20260.firebaseio.com/products.json')
         .then((http.Response response) {
+      _isLoading = false;
       print(json.decode(response.body));
       final List<Product> fetchedProductList = [];
-      final Map<String, dynamic> productListData =
-          json.decode(response.body);
-      productListData
-          .forEach((String productId, dynamic productData) {
+      final Map<String, dynamic> productListData = json.decode(response.body);
+
+      print("--------------json---------------");
+      print(json.decode(response.body));
+
+      if(productListData == null){
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      productListData.forEach((String productId, dynamic productData) {
         final Product product = Product(
             id: productId,
             title: productData['title'],
@@ -104,6 +118,7 @@ class ProductsModel extends ConnectedProductsModel {
         fetchedProductList.add(product);
       });
       _products = fetchedProductList;
+      _isLoading = false;
       notifyListeners();
     });
   }
@@ -134,6 +149,7 @@ class ProductsModel extends ConnectedProductsModel {
   void updateProduct(
       String title, String description, String image, double price) {
     _products[selectedProductIndex] = Product(
+
       title: title,
       description: description,
       image: image,
@@ -154,4 +170,8 @@ class UserModel extends ConnectedProductsModel {
       password: password,
     );
   }
+}
+
+class UtilityModel extends ConnectedProductsModel {
+  bool get isLoading => _isLoading;
 }

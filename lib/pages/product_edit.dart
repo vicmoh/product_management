@@ -107,13 +107,16 @@ class _ProductEditPageState extends State<ProductEditPage> {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       // return widget
-      return Container(
-          padding: EdgeInsets.only(top: 15.0),
-          child: RaisedButton(
-              textColor: Colors.white,
-              color: Theme.of(context).accentColor,
-              child: Text("Save"),
-              onPressed: () => _submitForm(model.addProduct, model, context)));
+      return model.isLoading
+          ? CircularProgressIndicator()
+          : Container(
+              padding: EdgeInsets.only(top: 15.0),
+              child: RaisedButton(
+                  textColor: Colors.white,
+                  color: Theme.of(context).accentColor,
+                  child: Text("Save"),
+                  onPressed: () =>
+                      _submitForm(model.addProduct, model, context)));
     } //end model
         );
   } //end build submit button func
@@ -132,12 +135,16 @@ class _ProductEditPageState extends State<ProductEditPage> {
       print("Title: " + _formData['title']);
       print("Description: " + _formData['description']);
       print("price: " + _formData['price'].toString());
-      model.addProduct(
-        _formData['title'],
-        _formData['description'],
-        _formData['image'],
-        _formData['price'],
-      );
+      model
+          .addProduct(
+            _formData['title'],
+            _formData['description'],
+            _formData['image'],
+            _formData['price'],
+          )
+          .then((_) => Navigator
+              .pushReplacementNamed(context, '/products')
+              .then((_) => model.selectProduct(null)));
     } else {
       print("---UPDATING PRODUCT---");
       model.updateProduct(
@@ -147,41 +154,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
         _formData['price'],
       );
     }
-
-    // action button for dialog
-    Widget actionButtonForDiablog(String text, bool isItCloseButton) {
-      return FlatButton(
-        child: Text(text),
-        onPressed: () {
-          // set the text empty
-          _titleController.text = "";
-          _descriptionController.text = "";
-          _priceController.text = "";
-          // exit the alert
-          if (isItCloseButton == true) {
-            Navigator.pop(context);
-            // model.selectProduct(null);
-          } else {
-            Navigator.pop(context);
-            Navigator
-                .pushReplacementNamed(context, '/products')
-                .then((_) => model.selectProduct(null));
-          }
-        },
-      );
-    }
-
-    // show a saved alert
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-              title: Text("Feedback"),
-              content: Text("The product has been saved."),
-              actions: <Widget>[
-                actionButtonForDiablog("Go to home", false),
-                actionButtonForDiablog("Stay here", true),
-              ],
-            ));
   } //end submit form func
 
   Widget _buildPageContent(BuildContext context, Product product) {
@@ -215,9 +187,9 @@ class _ProductEditPageState extends State<ProductEditPage> {
         child: Container(
             margin: EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0),
             child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(children: <Widget>[
+                key: _formKey,
+                child: SingleChildScrollView(
+                    child: Column(children: <Widget>[
                   // title
                   _buildTextFormField(
                       title: "Product Title",
