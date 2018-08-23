@@ -28,14 +28,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final MainModel model = MainModel();
     return ScopedModel<MainModel>(
-      model: MainModel(),
+      model: model,
       child: MaterialApp(
       // list of routes
       routes: {
         '/': (BuildContext context) => AuthPage(), // must comment home:
         '/admin': (BuildContext context) => ProductAdminPage(),
-        '/products': (BuildContext context) => ProductsPage(),
+        '/products': (BuildContext context) => ProductsPage(model),
       },
 
       // create multiple sub route
