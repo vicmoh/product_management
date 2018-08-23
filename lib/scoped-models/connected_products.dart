@@ -18,19 +18,22 @@ class ConnectedProductsModel extends Model {
       'image': 'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
       'price': price
     }; 
-    http.post('https://flutter-products-20260.firebaseio.com/products.json', body: json.encode(productData));
-
-    final Product newProduct = Product(
-      title: title,
-      description: description,
-      image: image,
-      price: price,
-      userEmail: _authenticatedUser.email,
-      userId: _authenticatedUser.id,
-    );
-    _products.add(newProduct);
-    // update and refresh: it re-render the page
-    notifyListeners();
+    http.post('https://flutter-products-20260.firebaseio.com/products.json', body: json.encode(productData)).then((http.Response response){
+      final Map<String, dynamic> responseData  = json.decode(response.body);
+      print(responseData);
+      final Product newProduct = Product(
+        id: responseData['name'],
+        title: title,
+        description: description,
+        image: image,
+        price: price,
+        userEmail: _authenticatedUser.email,
+        userId: _authenticatedUser.id,
+      );
+      _products.add(newProduct);
+      // update and refresh: it re-render the page
+      notifyListeners();
+    });
   } //end func
 }//end class
 
