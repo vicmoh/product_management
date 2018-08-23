@@ -212,9 +212,10 @@ class _ProductEditPageState extends State<ProductEditPage> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
-            margin: EdgeInsets.all(15.0),
+            margin: EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0),
             child: Form(
-                key: _formKey,
+              key: _formKey,
+              child: SingleChildScrollView(
                 child: Column(children: <Widget>[
                   // title
                   _buildTextFormField(
@@ -241,7 +242,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
                       controller: _priceController),
                   // save button
                   _buildSubmitButton(context),
-                ]))));
+                ])))));
   } //end build content func
 
   _buildEditPageVersion(BuildContext context, Widget content) {

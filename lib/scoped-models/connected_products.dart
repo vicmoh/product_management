@@ -2,6 +2,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import '../models/user.dart';
+import 'dart:convert';
 
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
@@ -10,11 +11,14 @@ class ConnectedProductsModel extends Model {
 
   void addProduct(String title, String description, String image, double price) {
 
+    // post to firebase
     final Map<String, dynamic> productData = {
       'title': title,
       'description': description,
+      'image': 'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
+      'price': price
     }; 
-    http.post('https://flutter-products-20260.firebaseio.com/products.json');
+    http.post('https://flutter-products-20260.firebaseio.com/products.json', body: json.encode(productData));
 
     final Product newProduct = Product(
       title: title,
@@ -28,7 +32,7 @@ class ConnectedProductsModel extends Model {
     // update and refresh: it re-render the page
     notifyListeners();
   } //end func
-}
+}//end class
 
 class ProductsModel extends ConnectedProductsModel {
   bool _showFavorites = false;
