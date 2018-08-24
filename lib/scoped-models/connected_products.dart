@@ -12,7 +12,7 @@ class ConnectedProductsModel extends Model {
   bool _isLoading = false;
 
   Future<bool> addProduct(
-      String title, String description, String image, double price) {
+      String title, String description, String image, double price) async {
     _isLoading = true;
     notifyListeners();
     // post to firebase
@@ -25,11 +25,11 @@ class ConnectedProductsModel extends Model {
       'userEmail': _authenticatedUser.email,
       'userId': _authenticatedUser.id
     };
-    return http
-        .post('https://flutter-products-20260.firebaseio.com/products.json',
-            body: json.encode(productData))
-        .then((http.Response response) {
-      // if there is an error or failed
+
+    try {
+      final http.Response response = await http.post(
+          'https://flutter-products-20260.firebaseio.com/products.json',
+          body: json.encode(productData));
       if (response.statusCode != 200 && response.statusCode != 201) {
         _isLoading = false;
         notifyListeners();
@@ -52,11 +52,11 @@ class ConnectedProductsModel extends Model {
       _isLoading = false;
       notifyListeners();
       return true;
-    }).catchError((error){
+    } catch (error) {
       _isLoading = false;
       notifyListeners();
       return true;
-    });
+    }
   } //end func
 } //end class
 
@@ -114,7 +114,7 @@ class ProductsModel extends ConnectedProductsModel {
       _isLoading = false;
       notifyListeners();
       return true;
-    }).catchError((error){
+    }).catchError((error) {
       _isLoading = false;
       notifyListeners();
       return false;
@@ -155,7 +155,7 @@ class ProductsModel extends ConnectedProductsModel {
       _isLoading = false;
       notifyListeners();
       _selProductId = null;
-    }).catchError((error){
+    }).catchError((error) {
       _isLoading = false;
       notifyListeners();
       return;
@@ -215,11 +215,12 @@ class ProductsModel extends ConnectedProductsModel {
           userId: selectedProduct.userId);
       notifyListeners();
       return true;
-    }).catchError((error){
+    }).catchError((error) {
       _isLoading = false;
       notifyListeners();
       return false;
-    });;
+    });
+    ;
   } //end func
 } //end class
 
