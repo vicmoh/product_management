@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './product_edit.dart';
-import '../models/product.dart';
 import '../scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 

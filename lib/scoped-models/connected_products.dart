@@ -148,20 +148,20 @@ class ProductsModel extends ConnectedProductsModel {
     notifyListeners();
   }
 
-  void updateProduct(
+  Future<Null> updateProduct(
       String title, String description, String image, double price) {
     _isLoading = true;
 
     final Map<String, dynamic> updateData = {
       'title': title,
       'description': description,
-      'iamge':
+      'image':
           'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
       'price': price,
       'userEmail': _authenticatedUser.email,
       'userId': _authenticatedUser.id,
     };
-    http.put(
+    return http.put(
         'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json',
         body: json.encode(updateData)).then((http.Response response) {
           _isLoading = false;
