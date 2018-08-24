@@ -14,7 +14,7 @@ class ConnectedProductsModel extends Model {
   Future<Null> addProduct(
       String title, String description, String image, double price) {
     _isLoading = true;
-    // notifyListeners();
+    notifyListeners();
     // post to firebase
     final Map<String, dynamic> productData = {
       'title': title,
@@ -101,7 +101,7 @@ class ProductsModel extends ConnectedProductsModel {
       print("--------------json---------------");
       print(json.decode(response.body));
 
-      if(productListData == null){
+      if (productListData == null) {
         _isLoading = false;
         notifyListeners();
         return;
@@ -149,17 +149,32 @@ class ProductsModel extends ConnectedProductsModel {
 
   void updateProduct(
       String title, String description, String image, double price) {
-    _products[selectedProductIndex] = Product(
+    _isLoading = true;
 
-      title: title,
-      description: description,
-      image: image,
-      price: price,
-      userEmail: selectedProduct.userEmail,
-      userId: selectedProduct.userId,
-    );
-    // update and refresh: it re-render the page
-    notifyListeners();
+    final Map<String, dynamic> updateData = {
+      'title': title,
+      'description': description,
+      'iamge':
+          'https://www.iexpats.com/wp-content/uploads/2016/11/chocolate.jpg',
+      'price': price,
+      'userEmail': _authenticatedUser.email,
+      'userId': _authenticatedUser.id,
+    };
+    http.put(
+        'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json',
+        body: json.encode(updateData)).then((http.Response response) {
+          _isLoading = false;
+          _products[selectedProductIndex] = Product(
+              id: selectedProduct.id,
+              title: title,
+              description: description,
+              image: image,
+              price: price,
+              userEmail: selectedProduct.userEmail,
+              userId: selectedProduct.userId);
+          // update and refresh: it re-render the page
+          notifyListeners();
+        });
   } //end func
 } //end class
 

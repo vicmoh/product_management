@@ -3,8 +3,12 @@ import '../widgets/ui_elements/drawers.dart';
 import "./product_edit.dart";
 import "./product_list.dart";
 import '../models/product.dart';
+import '../scoped-models/main.dart';
 
 class ProductAdminPage extends StatelessWidget {
+  final MainModel model;
+  ProductAdminPage(this.model);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,7 +27,7 @@ class ProductAdminPage extends StatelessWidget {
           body: TabBarView(
             children: <Widget>[
               ProductEditPage(),
-              ProductListPage(),
+              ProductListPage(model),
             ],
           ),
         ));

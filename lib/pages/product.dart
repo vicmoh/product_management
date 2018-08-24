@@ -26,7 +26,7 @@ class ProductPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             // image
-            Image.asset(product.image),
+            Image.network(product.image),
 
             // food label
             Container(
