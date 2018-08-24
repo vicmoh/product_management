@@ -10,6 +10,48 @@ class ConnectedProductsModel extends Model {
   User _authenticatedUser;
   String _selProductId;
   bool _isLoading = false;
+} //end class
+
+class ProductsModel extends ConnectedProductsModel {
+  bool _showFavorites = false;
+
+  List<Product> get allProducts {
+    return List.from(_products);
+  } //end func
+
+  List<Product> get displayProducts {
+    if (_showFavorites) {
+      return _products.where((Product product) => product.isFavorite).toList();
+    }
+    return List.from(_products);
+  } //end func
+
+  Product get selectedProduct {
+    if (selectedProductId == null) return null;
+    return _products.firstWhere((Product product) {
+      return product.id == _selProductId;
+    });
+  } //end func
+
+  bool get displayFavoriteOnly {
+    return _showFavorites;
+  }
+
+  String get selectedProductId {
+    return _selProductId;
+  }
+
+  int get selectedProductIndex {
+    return _products.indexWhere((Product product) {
+      return product.id == _selProductId;
+    });
+  }
+
+  void selectProduct(String productId) {
+    _selProductId = productId;
+    // update and refresh: it re-render the page
+    if (_selProductId != null) notifyListeners();
+  } //end funcs
 
   Future<bool> addProduct(
       String title, String description, String image, double price) async {
@@ -58,48 +100,6 @@ class ConnectedProductsModel extends Model {
       return true;
     }
   } //end func
-} //end class
-
-class ProductsModel extends ConnectedProductsModel {
-  bool _showFavorites = false;
-
-  List<Product> get allProducts {
-    return List.from(_products);
-  } //end func
-
-  List<Product> get displayProducts {
-    if (_showFavorites) {
-      return _products.where((Product product) => product.isFavorite).toList();
-    }
-    return List.from(_products);
-  } //end func
-
-  Product get selectedProduct {
-    if (selectedProductId == null) return null;
-    return _products.firstWhere((Product product) {
-      return product.id == _selProductId;
-    });
-  } //end func
-
-  bool get displayFavoriteOnly {
-    return _showFavorites;
-  }
-
-  String get selectedProductId {
-    return _selProductId;
-  }
-
-  int get selectedProductIndex {
-    return _products.indexWhere((Product product) {
-      return product.id == _selProductId;
-    });
-  }
-
-  void selectProduct(String productId) {
-    _selProductId = productId;
-    // update and refresh: it re-render the page
-    if (_selProductId != null) notifyListeners();
-  } //end funcs
 
   Future<bool> deleteProduct() {
     _isLoading = true;
