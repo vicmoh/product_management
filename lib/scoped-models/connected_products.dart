@@ -8,7 +8,7 @@ import 'dart:async';
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
   User _authenticatedUser;
-  int _selProductIndex;
+  String _selProductId;
   bool _isLoading = false;
 
   Future<Null> addProduct(
@@ -63,29 +63,37 @@ class ProductsModel extends ConnectedProductsModel {
   } //end func
 
   Product get selectedProduct {
-    if (selectedProductIndex == null) return null;
-    return _products[selectedProductIndex];
+    if (selectedProductId == null) return null;
+    return _products.firstWhere((Product product) {
+      return product.id == _selProductId;
+    });
   } //end func
 
   bool get displayFavoriteOnly {
     return _showFavorites;
   }
 
-  int get selectedProductIndex {
-    return _selProductIndex;
+  String get selectedProductId {
+    return _selProductId;
   }
 
-  void selectProduct(int index) {
-    _selProductIndex = index;
+  int get selectedProductIndex{
+    return _products.indexWhere((Product product) {
+      return product.id == _selProductId;
+    });
+  }
+
+  void selectProduct(String productId) {
+    _selProductId = productId;
     // update and refresh: it re-render the page
-    if (_selProductIndex != null) notifyListeners();
+    if (_selProductId != null) notifyListeners();
   } //end funcs
 
   void deleteProduct() {
     _isLoading = true;
     final deletedProductId = selectedProduct.id;
-         _products.removeAt(selectedProductIndex);
-         _selProductIndex = null;
+    _products.removeAt(selectedProductIndex);
+    _selProductId = null;
     notifyListeners();
     http
         .delete(
@@ -183,7 +191,6 @@ class ProductsModel extends ConnectedProductsModel {
           price: price,
           userEmail: selectedProduct.userEmail,
           userId: selectedProduct.userId);
-      // update and refresh: it re-render the page
       notifyListeners();
     });
   } //end func

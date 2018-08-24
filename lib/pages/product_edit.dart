@@ -129,7 +129,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     _formKey.currentState.save();
 
     // check if updating the data or adding a new one
-    if (model.selectedProductIndex == null) {
+    if (model.selectedProductIndex <= -1) {
       // save to the map
       print("---ADDING---");
       print("Title: " + _formData['title']);
@@ -236,7 +236,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       final Widget pageContent =
           _buildPageContent(context, model.selectedProduct);
-      return model.selectedProductIndex == null
+      return model.selectedProductIndex <= -1
           ? pageContent
           : _buildEditPageVersion(context, pageContent);
     });
