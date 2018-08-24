@@ -54,7 +54,7 @@ class _AuthPageState extends State<StatefulWidget> {
   _submitLogin(Function login) {
     if (!_loginKey.currentState.validate()) {
       return;
-    } else if (_loginData['acceptTerm'] == false) {
+    } else if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup){
       // term condition
       print("show alert:");
       showDialog(
@@ -73,6 +73,7 @@ class _AuthPageState extends State<StatefulWidget> {
                       "Please accept the term and condition to continue.")));
       return;
     }
+    // save and go to homepage
     _loginKey.currentState.save();
     login(_loginData['email'], _loginData['password']);
     print("---LOGIN---");
