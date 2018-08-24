@@ -29,7 +29,7 @@ class _AuthPageState extends State<StatefulWidget> {
     this._loginData['password'] = value;
   }
 
-  String _validateString(String toBeValidate) {
+  String _validateRequiredString(String toBeValidate) {
     if (toBeValidate.isEmpty) {
       return 'Required';
     } else {
@@ -45,7 +45,7 @@ class _AuthPageState extends State<StatefulWidget> {
   }
 
   String _validatePass(String toBeValidate) {
-    if (_passController != toBeValidate) {
+    if (_passController.text != toBeValidate) {
       return 'Password is invalid';
     }
     return null;
@@ -106,6 +106,10 @@ class _AuthPageState extends State<StatefulWidget> {
 
   // main login container
   Widget _loginContainer() {
+
+    var mainButtonString = _authMode == AuthMode.Login ? "Login" : "Sign Up";
+    var switchToLoginOrSignUpString = _authMode == AuthMode.Login ? "Sign Up Page" : "Login Page";
+
     return Form(
         key: _loginKey,
         child: GestureDetector(
@@ -128,7 +132,7 @@ class _AuthPageState extends State<StatefulWidget> {
                   SizedBox(height: 10.0),
 
                   // password
-                  _buildTextField("Password", true, _setPassword, _validatePass,
+                  _buildTextField("Password", true, _setPassword, _validateRequiredString,
                       _passController),
                   SizedBox(height: 10.0),
 
@@ -162,7 +166,7 @@ class _AuthPageState extends State<StatefulWidget> {
                             // login button
                             Container(
                               child: RaisedButton(
-                                child: Text("Login"),
+                                child: Text(mainButtonString),
                                 textColor: Colors.white,
                                 color: Theme.of(context).accentColor,
                                 onPressed: () => _submitLogin(model.login),
@@ -172,7 +176,7 @@ class _AuthPageState extends State<StatefulWidget> {
                             // sign up button
                             Container(
                               child: FlatButton(
-                                child: Text("Sign Up"),
+                                child: Text(switchToLoginOrSignUpString),
                                 onPressed: () {
                                   setState(() {
                                     _authMode = _authMode == AuthMode.Login
