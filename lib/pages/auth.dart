@@ -133,8 +133,10 @@ class _AuthPageState extends State<StatefulWidget> {
                   SizedBox(height: 10.0),
 
                   // confirm password
-                  _buildTextField("Confirm Password", true, _setPassword,
-                      _validatePass, _confirmPassController),
+                  _authMode == AuthMode.Signup
+                      ? _buildTextField("Confirm Password", true, _setPassword,
+                          _validatePass, _confirmPassController)
+                      : Container(),
 
                   // term and condition
                   Container(
