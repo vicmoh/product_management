@@ -4,33 +4,33 @@ import '../widgets/ui_elements/drawers.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../scoped-models/main.dart';
 
-class ProductsPage extends StatefulWidget{
+class ProductsPage extends StatefulWidget {
   final MainModel model;
   ProductsPage(this.model);
   @override
-    State<StatefulWidget> createState() {
-      // TODO: implement createState
-      return _ProductsPageState();
-    }
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _ProductsPageState();
+  }
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-
   @override
-  initState(){
+  initState() {
     widget.model.fetchProducts();
     super.initState();
   }
 
-  Widget _buildProductsList(){
-    return ScopedModelDescendant(builder: (BuildContext context, Widget child, MainModel model){
+  Widget _buildProductsList() {
+    return ScopedModelDescendant(
+        builder: (BuildContext context, Widget child, MainModel model) {
       Widget content = Center(child: Text("No Product Found!"));
-      if(model.displayProducts.length > 0 && !model.isLoading){
+      if (model.displayProducts.length > 0 && !model.isLoading) {
         content = Products();
-      }else if(model.isLoading){
+      } else if (model.isLoading) {
         content = Center(child: CircularProgressIndicator());
       }
-      return content;
+      return RefreshIndicator(onRefresh: model.fetchProducts, child: content);
     });
   }
 
@@ -44,8 +44,8 @@ class _ProductsPageState extends State<ProductsPage> {
       appBar: AppBar(
         title: Text("Easy List"),
         actions: <Widget>[
-          ScopedModelDescendant<MainModel>(builder:
-              (BuildContext context, Widget child, MainModel model) {
+          ScopedModelDescendant<MainModel>(
+              builder: (BuildContext context, Widget child, MainModel model) {
             //return icon button on app bar
             return IconButton(
               icon: Icon(model.displayFavoriteOnly

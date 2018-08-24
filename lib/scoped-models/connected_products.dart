@@ -96,9 +96,9 @@ class ProductsModel extends ConnectedProductsModel {
     });
   } //end func
 
-  void fetchProducts() {
+  Future<Null> fetchProducts() {
     _isLoading = true;
-    http
+    return http
         .get('https://flutter-products-20260.firebaseio.com/products.json')
         .then((http.Response response) {
       _isLoading = false;
