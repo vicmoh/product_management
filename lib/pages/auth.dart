@@ -146,8 +146,8 @@ class _AuthPageState extends State<StatefulWidget> {
                           onChanged: (bool value) {
                             setState(() {
                               this._loginData['acceptTerm'] = value;
-                            },);
-                          },),),
+                            });
+                          })),
 
                   // buttons
                   ScopedModelDescendant<MainModel>(builder:
