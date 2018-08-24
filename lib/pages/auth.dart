@@ -3,6 +3,8 @@ import "./products.dart";
 import 'package:scoped_model/scoped_model.dart';
 import '../scoped-models/main.dart';
 
+enum AuthMode { Signup, Login }
+
 class AuthPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -14,6 +16,8 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<StatefulWidget> {
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   var _loginData = {'email': '', 'password': '', 'acceptTerm': false};
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
 
   _setEmail(String value) {
     this._loginData['email'] = value;
@@ -29,6 +33,20 @@ class _AuthPageState extends State<StatefulWidget> {
     } else {
       return null;
     }
+  }
+
+  String _validateEmail(String toBeValidate) {
+    if (_emailController.text != toBeValidate) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+  String _validatePass(String toBeValidate) {
+    if (_passController != toBeValidate) {
+      return 'Password is invalid';
+    }
+    return null;
   }
 
   _submitLogin(Function login) {
@@ -71,12 +89,14 @@ class _AuthPageState extends State<StatefulWidget> {
   } //end back img
 
   // textfield for user and pass etc
-  Widget _buildTextField(String label, bool isObscure, Function setter) {
+  Widget _buildTextField(String label, bool isObscure, Function setter,
+      Function validator, TextEditingController controller) {
     return TextFormField(
         obscureText: isObscure,
         decoration: InputDecoration(
             labelText: label, filled: true, fillColor: Colors.white),
-        validator: _validateString,
+        validator: validator,
+        controller: controller,
         onSaved: (value) {
           setter(value);
         });
@@ -101,11 +121,13 @@ class _AuthPageState extends State<StatefulWidget> {
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
                   // username
-                  _buildTextField("Email", false, _setEmail),
+                  _buildTextField("Email", false, _setEmail, _validateEmail,
+                      _emailController),
                   // spacing
                   SizedBox(height: 10.0),
                   // password
-                  _buildTextField("Password", true, _setPassword),
+                  _buildTextField("Password", true, _setPassword, _validatePass,
+                      _passController),
 
                   // term and condition
                   Container(
@@ -120,18 +142,32 @@ class _AuthPageState extends State<StatefulWidget> {
                             });
                           })),
 
-                  // login button
+                  // buttons
                   ScopedModelDescendant<MainModel>(builder:
                       (BuildContext context, Widget child, MainModel model) {
                     return Container(
-                      padding: EdgeInsets.only(top: 15.0),
-                      child: RaisedButton(
-                        child: Text("Login"),
-                        textColor: Colors.white,
-                        color: Theme.of(context).accentColor,
-                        onPressed: () => _submitLogin(model.login),
-                      ),
-                    );
+                        padding: EdgeInsets.only(top: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // login button
+                            Container(
+                              child: RaisedButton(
+                                child: Text("Login"),
+                                textColor: Colors.white,
+                                color: Theme.of(context).accentColor,
+                                onPressed: () => _submitLogin(model.login),
+                              ),
+                            ),
+
+                            // sign up button
+                            Container(
+                                child: FlatButton(
+                              child: Text("Sign Up"),
+                              onPressed: () {},
+                            )),
+                          ],
+                        ));
                   }),
                 ]))))));
   } //login container
