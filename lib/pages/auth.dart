@@ -172,9 +172,11 @@ class _AuthPageState extends State<StatefulWidget> {
                               child: FlatButton(
                                 child: Text("Sign Up"),
                                 onPressed: () {
-                                  _authMode = _authMode == AuthMode.Login
-                                      ? AuthMode.Signup
-                                      : AuthMode.Login;
+                                  setState(() {
+                                    _authMode = _authMode == AuthMode.Login
+                                        ? AuthMode.Signup
+                                        : AuthMode.Login;
+                                  });
                                 },
                               ),
                             ),
