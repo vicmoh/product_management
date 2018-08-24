@@ -49,7 +49,7 @@ class _ProductListPageState extends State<ProductListPage> {
             child: Column(children: <Widget>[
       ListTile(
           leading: CircleAvatar(
-            backgroundImage: AssetImage(model.allProducts[index].image),
+            backgroundImage: NetworkImage(model.allProducts[index].image),
           ),
           title: Text(model.allProducts[index].title),
           subtitle: Text('\$' + model.allProducts[index].price.toString()),
