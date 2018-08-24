@@ -106,9 +106,9 @@ class _AuthPageState extends State<StatefulWidget> {
 
   // main login container
   Widget _loginContainer() {
-
     var mainButtonString = _authMode == AuthMode.Login ? "Login" : "Sign Up";
-    var switchToLoginOrSignUpString = _authMode == AuthMode.Login ? "Sign Up Page" : "Login Page";
+    var switchToLoginOrSignUpString =
+        _authMode == AuthMode.Login ? "Sign Up Page" : "Login Page";
 
     return Form(
         key: _loginKey,
@@ -132,8 +132,8 @@ class _AuthPageState extends State<StatefulWidget> {
                   SizedBox(height: 10.0),
 
                   // password
-                  _buildTextField("Password", true, _setPassword, _validateRequiredString,
-                      _passController),
+                  _buildTextField("Password", true, _setPassword,
+                      _validateRequiredString, _passController),
                   SizedBox(height: 10.0),
 
                   // confirm password
@@ -143,17 +143,19 @@ class _AuthPageState extends State<StatefulWidget> {
                       : Container(),
 
                   // term and condition
-                  Container(
-                      padding: EdgeInsets.only(top: 15.0),
-                      child: SwitchListTile(
-                          value: this._loginData['acceptTerm'],
-                          title: Text("Accept Terms",
-                              style: TextStyle(color: Colors.grey)),
-                          onChanged: (bool value) {
-                            setState(() {
-                              this._loginData['acceptTerm'] = value;
-                            });
-                          })),
+                  _authMode == AuthMode.Login
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.only(top: 15.0),
+                          child: SwitchListTile(
+                              value: this._loginData['acceptTerm'],
+                              title: Text("Accept Terms",
+                                  style: TextStyle(color: Colors.grey)),
+                              onChanged: (bool value) {
+                                setState(() {
+                                  this._loginData['acceptTerm'] = value;
+                                });
+                              })),
 
                   // buttons
                   ScopedModelDescendant<MainModel>(builder:
