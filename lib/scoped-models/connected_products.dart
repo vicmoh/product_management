@@ -82,10 +82,18 @@ class ProductsModel extends ConnectedProductsModel {
   } //end funcs
 
   void deleteProduct() {
-    _products.removeAt(selectedProductIndex);
-    // update and refresh: it re-render the page
-    _selProductIndex = null;
+    _isLoading = true;
+    final deletedProductId = selectedProduct.id;
+         _products.removeAt(selectedProductIndex);
+         _selProductIndex = null;
     notifyListeners();
+    http
+        .delete(
+            'https://flutter-products-20260.firebaseio.com/products/${deletedProductId}.json')
+        .then((http.Response response) {
+      _isLoading = false;
+      notifyListeners();
+    });
   } //end func
 
   void fetchProducts() {
@@ -161,21 +169,23 @@ class ProductsModel extends ConnectedProductsModel {
       'userEmail': _authenticatedUser.email,
       'userId': _authenticatedUser.id,
     };
-    return http.put(
-        'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json',
-        body: json.encode(updateData)).then((http.Response response) {
-          _isLoading = false;
-          _products[selectedProductIndex] = Product(
-              id: selectedProduct.id,
-              title: title,
-              description: description,
-              image: image,
-              price: price,
-              userEmail: selectedProduct.userEmail,
-              userId: selectedProduct.userId);
-          // update and refresh: it re-render the page
-          notifyListeners();
-        });
+    return http
+        .put(
+            'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json',
+            body: json.encode(updateData))
+        .then((http.Response response) {
+      _isLoading = false;
+      _products[selectedProductIndex] = Product(
+          id: selectedProduct.id,
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+          userEmail: selectedProduct.userEmail,
+          userId: selectedProduct.userId);
+      // update and refresh: it re-render the page
+      notifyListeners();
+    });
   } //end func
 } //end class
 
