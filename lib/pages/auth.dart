@@ -51,35 +51,50 @@ class _AuthPageState extends State<StatefulWidget> {
     return null;
   }
 
-  _submitLogin(Function login) {
+  void _submitLogin(Function login, Function signup) async {
     if (!_loginKey.currentState.validate()) {
       return;
-    } else if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup){
-      // term condition
-      print("show alert:");
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                  title: Text("Term and Condition"),
-                  content: Text(
-                      "Please accept the term and condition to continue.")));
-      return;
     }
-    // save and go to homepage
     _loginKey.currentState.save();
-    login(_loginData['email'], _loginData['password']);
+
+    // when on login page
+    if (_authMode == AuthMode.Login) {
+      login(_loginData['email'], _loginData['password']);
+    } else {
+      final Map<String, dynamic> successInformation =
+          await signup(_loginData['email'], _loginData['password']);
+
+      // when signup page
+      if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
+        // term condition
+        print("show alert:");
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                    title: Text("Term and Condition"),
+                    content: Text(
+                        "Please accept the term and condition to continue.")));
+        return;
+      }
+
+      // when success
+      if (successInformation['success']) {
+        Navigator.pushReplacementNamed(context, '/products');
+      }
+    }
+
+    // go to homepage
     print("---LOGIN---");
     print("email: " + this._loginData['email']);
     print("password: " + this._loginData['password']);
-    Navigator.pushReplacementNamed(context, '/products');
   }
 
   // background image
@@ -172,7 +187,8 @@ class _AuthPageState extends State<StatefulWidget> {
                                 child: Text(mainButtonString),
                                 textColor: Colors.white,
                                 color: Theme.of(context).accentColor,
-                                onPressed: () => _submitLogin(model.login),
+                                onPressed: () =>
+                                    _submitLogin(model.login, model.signup),
                               ),
                             ),
 
