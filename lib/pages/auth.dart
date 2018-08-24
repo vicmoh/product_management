@@ -18,6 +18,8 @@ class _AuthPageState extends State<StatefulWidget> {
   var _loginData = {'email': '', 'password': '', 'acceptTerm': false};
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
+  final _confirmPassController = TextEditingController();
+  AuthMode _authMode = AuthMode.Login;
 
   _setEmail(String value) {
     this._loginData['email'] = value;
@@ -123,11 +125,16 @@ class _AuthPageState extends State<StatefulWidget> {
                   // username
                   _buildTextField("Email", false, _setEmail, _validateEmail,
                       _emailController),
-                  // spacing
                   SizedBox(height: 10.0),
+
                   // password
                   _buildTextField("Password", true, _setPassword, _validatePass,
                       _passController),
+                  SizedBox(height: 10.0),
+
+                  // confirm password
+                  _buildTextField("Confirm Password", true, _setPassword,
+                      _validatePass, _confirmPassController),
 
                   // term and condition
                   Container(
@@ -139,8 +146,8 @@ class _AuthPageState extends State<StatefulWidget> {
                           onChanged: (bool value) {
                             setState(() {
                               this._loginData['acceptTerm'] = value;
-                            });
-                          })),
+                            },);
+                          },),),
 
                   // buttons
                   ScopedModelDescendant<MainModel>(builder:
@@ -162,10 +169,15 @@ class _AuthPageState extends State<StatefulWidget> {
 
                             // sign up button
                             Container(
-                                child: FlatButton(
-                              child: Text("Sign Up"),
-                              onPressed: () {},
-                            )),
+                              child: FlatButton(
+                                child: Text("Sign Up"),
+                                onPressed: () {
+                                  _authMode = _authMode == AuthMode.Login
+                                      ? AuthMode.Signup
+                                      : AuthMode.Login;
+                                },
+                              ),
+                            ),
                           ],
                         ));
                   }),
