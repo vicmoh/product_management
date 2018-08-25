@@ -2,8 +2,7 @@ import "package:flutter/material.dart";
 import "./products.dart";
 import 'package:scoped_model/scoped_model.dart';
 import '../scoped-models/main.dart';
-
-enum AuthMode { Signup, Login }
+import '../scoped-models/auth.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -51,21 +50,15 @@ class _AuthPageState extends State<StatefulWidget> {
     return null;
   }
 
-  void _submitLogin(Function login, Function signup) async {
+  void _submitLogin(Function authenticate) async {
     if (!_loginKey.currentState.validate()) {
       return;
-    }//end if
+    } //end if
     _loginKey.currentState.save();
 
     // when on login page
-    Map<String, dynamic> successInformation;
-    if (_authMode == AuthMode.Login) {
-      successInformation =
-          await login(_loginData['email'], _loginData['password']);
-    } else {
-      successInformation =
-          await signup(_loginData['email'], _loginData['password']);
-    }//end if
+    Map<String, dynamic> successInformation =
+        await authenticate(_loginData['email'], _loginData['password'], _authMode);
 
     // when signup page
     if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
@@ -85,7 +78,7 @@ class _AuthPageState extends State<StatefulWidget> {
                   content: Text(
                       "Please accept the term and condition to continue.")));
       return;
-    }//end if
+    } //end if
 
     // when success
     if (successInformation['success']) {
@@ -103,13 +96,13 @@ class _AuthPageState extends State<StatefulWidget> {
                           Navigator.of(context).pop();
                         })
                   ]));
-    }//end if
+    } //end if
 
     // go to homepage
     print("---LOGIN---");
     print("email: " + this._loginData['email']);
     print("password: " + this._loginData['password']);
-  }//end func
+  } //end func
 
   // background image
   DecorationImage _buildBackgroundImage() {
@@ -203,8 +196,8 @@ class _AuthPageState extends State<StatefulWidget> {
                                         child: Text(mainButtonString),
                                         textColor: Colors.white,
                                         color: Theme.of(context).accentColor,
-                                        onPressed: () => _submitLogin(
-                                            model.login, model.signup),
+                                        onPressed: () =>
+                                            _submitLogin(model.authenticate),
                                       )),
 
                             // switch login page or sign up page button
