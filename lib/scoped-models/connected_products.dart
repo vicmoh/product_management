@@ -125,7 +125,7 @@ class ProductsModel extends ConnectedProductsModel {
   Future<Null> fetchProducts() {
     _isLoading = true;
     return http
-        .get('https://flutter-products-20260.firebaseio.com/products.json')
+        .get('https://flutter-products-20260.firebaseio.com/products.json?auth=${_authenticatedUser.token}')
         .then<Null>((http.Response response) {
       _isLoading = false;
       print(json.decode(response.body));
@@ -255,6 +255,13 @@ class UserModel extends ConnectedProductsModel {
     if (responseData.containsKey('idToken')) {
       hasError = false;
       message = 'Authentication succeeded';
+      // new user if successful
+      _authenticatedUser = User(
+        id: responseData['localId'],
+        email: email,
+        token: responseData['idToken'],
+      );
+
     } else if (responseData['error']['message'] == 'EMAIL_NOT_EXISTS') {
       message = 'This email was not found.';
     } else if (responseData['error']['message'] == 'INVALID_PASSWORD') {
