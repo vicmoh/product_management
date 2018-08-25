@@ -71,7 +71,7 @@ class ProductsModel extends ConnectedProductsModel {
 
     try {
       final http.Response response = await http.post(
-          'https://flutter-products-20260.firebaseio.com/products.json',
+          'https://flutter-products-20260.firebaseio.com/products.json?auth=${_authenticatedUser.token}',
           body: json.encode(productData));
       if (response.statusCode != 200 && response.statusCode != 201) {
         _isLoading = false;
@@ -110,7 +110,7 @@ class ProductsModel extends ConnectedProductsModel {
     notifyListeners();
     return http
         .delete(
-            'https://flutter-products-20260.firebaseio.com/products/${deletedProductId}.json')
+            'https://flutter-products-20260.firebaseio.com/products/${deletedProductId}.json?auth=${_authenticatedUser.token}')
         .then((http.Response response) {
       _isLoading = false;
       notifyListeners();
@@ -202,7 +202,7 @@ class ProductsModel extends ConnectedProductsModel {
     };
     return http
         .put(
-            'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json',
+            'https://flutter-products-20260.firebaseio.com/products/${selectedProduct.id}.json?auth=${_authenticatedUser.token}',
             body: json.encode(updateData))
         .then((http.Response response) {
       _isLoading = false;
