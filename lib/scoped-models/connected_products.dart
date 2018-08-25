@@ -234,6 +234,8 @@ class UserModel extends ConnectedProductsModel {
   }
 
   Future<Map<String, dynamic>> signup(String email, password) async {
+    _isLoading = true;
+    notifyListeners();
     final Map<String, dynamic> authData = {
       'email': email,
       'password': password,
@@ -243,8 +245,22 @@ class UserModel extends ConnectedProductsModel {
         'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCaNnWM1rcSulA1ZvlIXxsQsW5D1nQJRKQ',
         body: json.encode(authData),
         headers: {'Content-Type': 'application/json'});
-    print(json.decode(response.body));
-    return {'success': true, 'message': 'Authentication succeeded!'};
+
+    // error check
+    bool hasError = true;
+    final Map<String, dynamic> responseData = json.decode(response.body);
+    var message = '';
+    if (responseData.containsKey('idToken')) {
+      hasError = false;
+      message = 'Authentication succeeded';
+    }else if(responseData['error']['message'] == 'EMAIL_EXISTS'){
+      message = 'This email already exists.';
+    }else{
+      message = 'Something went wrong.';
+    }
+    _isLoading = false;
+    notifyListeners();
+    return {'success': !hasError, 'message': message};
   }
 }
 

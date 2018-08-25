@@ -73,11 +73,10 @@ class _AuthPageState extends State<StatefulWidget> {
             builder: (BuildContext context) => AlertDialog(
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          })
                     ],
                     title: Text("Term and Condition"),
                     content: Text(
@@ -88,6 +87,19 @@ class _AuthPageState extends State<StatefulWidget> {
       // when success
       if (successInformation['success']) {
         Navigator.pushReplacementNamed(context, '/products');
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                    title: Text('An Error Occured'),
+                    content: Text(successInformation['message']),
+                    actions: <Widget>[
+                      FlatButton(
+                          child: Text('Okay'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          })
+                    ]));
       }
     }
 
@@ -181,18 +193,19 @@ class _AuthPageState extends State<StatefulWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            // login button
+                            // main login sign up button
                             Container(
-                              child: RaisedButton(
-                                child: Text(mainButtonString),
-                                textColor: Colors.white,
-                                color: Theme.of(context).accentColor,
-                                onPressed: () =>
-                                    _submitLogin(model.login, model.signup),
-                              ),
-                            ),
+                                child: model.isLoading
+                                    ? CircularProgressIndicator()
+                                    : RaisedButton(
+                                        child: Text(mainButtonString),
+                                        textColor: Colors.white,
+                                        color: Theme.of(context).accentColor,
+                                        onPressed: () => _submitLogin(
+                                            model.login, model.signup),
+                                      )),
 
-                            // sign up button
+                            // switch login page or sign up page button
                             Container(
                               child: FlatButton(
                                 child: Text(switchToLoginOrSignUpString),
