@@ -54,60 +54,62 @@ class _AuthPageState extends State<StatefulWidget> {
   void _submitLogin(Function login, Function signup) async {
     if (!_loginKey.currentState.validate()) {
       return;
-    }
+    }//end if
     _loginKey.currentState.save();
 
     // when on login page
+    Map<String, dynamic> successInformation;
     if (_authMode == AuthMode.Login) {
-      login(_loginData['email'], _loginData['password']);
+      successInformation =
+          await login(_loginData['email'], _loginData['password']);
     } else {
-      final Map<String, dynamic> successInformation =
+      successInformation =
           await signup(_loginData['email'], _loginData['password']);
+    }//end if
 
-      // when signup page
-      if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
-        // term condition
-        print("show alert:");
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                    actions: <Widget>[
-                      FlatButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          })
-                    ],
-                    title: Text("Term and Condition"),
-                    content: Text(
-                        "Please accept the term and condition to continue.")));
-        return;
-      }
+    // when signup page
+    if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
+      // term condition
+      print("show alert:");
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                  actions: <Widget>[
+                    FlatButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        })
+                  ],
+                  title: Text("Term and Condition"),
+                  content: Text(
+                      "Please accept the term and condition to continue.")));
+      return;
+    }//end if
 
-      // when success
-      if (successInformation['success']) {
-        Navigator.pushReplacementNamed(context, '/products');
-      } else {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                    title: Text('An Error Occured'),
-                    content: Text(successInformation['message']),
-                    actions: <Widget>[
-                      FlatButton(
-                          child: Text('Okay'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          })
-                    ]));
-      }
-    }
+    // when success
+    if (successInformation['success']) {
+      Navigator.pushReplacementNamed(context, '/products');
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                  title: Text('An Error Occured'),
+                  content: Text(successInformation['message']),
+                  actions: <Widget>[
+                    FlatButton(
+                        child: Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        })
+                  ]));
+    }//end if
 
     // go to homepage
     print("---LOGIN---");
     print("email: " + this._loginData['email']);
     print("password: " + this._loginData['password']);
-  }
+  }//end func
 
   // background image
   DecorationImage _buildBackgroundImage() {
