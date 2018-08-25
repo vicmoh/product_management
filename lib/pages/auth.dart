@@ -56,10 +56,6 @@ class _AuthPageState extends State<StatefulWidget> {
     } //end if
     _loginKey.currentState.save();
 
-    // when on login page
-    Map<String, dynamic> successInformation =
-        await authenticate(_loginData['email'], _loginData['password'], _authMode);
-
     // when signup page
     if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
       // term condition
@@ -79,6 +75,10 @@ class _AuthPageState extends State<StatefulWidget> {
                       "Please accept the term and condition to continue.")));
       return;
     } //end if
+
+    // when on login page
+    Map<String, dynamic> successInformation = await authenticate(
+        _loginData['email'], _loginData['password'], _authMode);
 
     // when success
     if (successInformation['success']) {
