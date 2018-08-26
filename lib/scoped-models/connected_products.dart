@@ -126,7 +126,8 @@ class ProductsModel extends ConnectedProductsModel {
   Future<Null> fetchProducts() {
     _isLoading = true;
     return http
-        .get('https://flutter-products-20260.firebaseio.com/products.json?auth=${_authenticatedUser.token}')
+        .get(
+            'https://flutter-products-20260.firebaseio.com/products.json?auth=${_authenticatedUser.token}')
         .then<Null>((http.Response response) {
       _isLoading = false;
       print(json.decode(response.body));
@@ -227,8 +228,7 @@ class ProductsModel extends ConnectedProductsModel {
 } //end class
 
 class UserModel extends ConnectedProductsModel {
-
-  User get user{
+  User get user {
     return _authenticatedUser;
   }
 
@@ -272,7 +272,6 @@ class UserModel extends ConnectedProductsModel {
       prefs.setString('token', responseData['idToken']);
       prefs.setString('userEmail', email);
       prefs.setString('userId', responseData['localId']);
-
     } else if (responseData['error']['message'] == 'EMAIL_NOT_EXISTS') {
       message = 'This email was not found.';
     } else if (responseData['error']['message'] == 'INVALID_PASSWORD') {
@@ -291,7 +290,7 @@ class UserModel extends ConnectedProductsModel {
   void autoAuthenticate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token');
-    if(token != null){
+    if (token != null) {
       final String userEmail = prefs.getString('userEmail');
       final String userId = prefs.getString('userId');
       _authenticatedUser = User(id: userId, email: userEmail, token: token);
@@ -299,6 +298,15 @@ class UserModel extends ConnectedProductsModel {
     }
   }
 
+  void logout() async {
+    _authenticatedUser = null;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
+    // or do it individually
+    prefs.remove('token');
+    prefs.remove('userEmail');
+    prefs.remove('userId');
+  }
 }
 
 class UtilityModel extends ConnectedProductsModel {

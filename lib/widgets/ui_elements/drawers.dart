@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './logout_list_tile.dart';
 // import './pages/product_admin.dart';
 // import './pages/products.dart';
 
@@ -18,16 +19,19 @@ class MenuDrawer extends StatelessWidget {
 
     // drawer
     return Drawer(
-        child: Column(
-      children: <Widget>[
-        AppBar(
-          title: Text("Choose"),
-          // remove hamburger icon
-          automaticallyImplyLeading: false,
-        ),
-        _menuButton(Icons.edit, "Manage Product", '/admin'),
-        _menuButton(Icons.shop, "Products", '/products'),
-      ],
-    ));
+      child: Column(
+        children: <Widget>[
+          AppBar(
+            title: Text("Choose"),
+            // remove hamburger icon
+            automaticallyImplyLeading: false,
+          ),
+          _menuButton(Icons.edit, "Manage Product", '/admin'),
+          _menuButton(Icons.shop, "Products", '/products'),
+          Divider(),
+          LogoutListTile(),
+        ],
+      ),
+    );
   } //end build
 } //end classs
