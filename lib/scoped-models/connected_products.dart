@@ -141,7 +141,7 @@ class ProductsModel extends ConnectedProductsModel {
         _isLoading = false;
         notifyListeners();
         return;
-      }//end if
+      } //end if
 
       productListData.forEach((String productId, dynamic productData) {
         final Product product = Product(
@@ -163,7 +163,7 @@ class ProductsModel extends ConnectedProductsModel {
       notifyListeners();
       return;
     });
-  }//end func
+  } //end func
 
   void toggleProductFavoriteStatus() {
     final bool isCurrentlyFavorite = _products[selectedProductIndex].isFavorite;
@@ -228,9 +228,10 @@ class ProductsModel extends ConnectedProductsModel {
 } //end class
 
 class UserModel extends ConnectedProductsModel {
-  User get user {
-    return _authenticatedUser;
-  }
+  Timer _authTimer;
+  
+
+  User get user => _authenticatedUser;
 
   Future<Map<String, dynamic>> authenticate(String email, String password,
       [AuthMode mode = AuthMode.Login]) async {
@@ -252,7 +253,7 @@ class UserModel extends ConnectedProductsModel {
           'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCaNnWM1rcSulA1ZvlIXxsQsW5D1nQJRKQ',
           body: json.encode(authData),
           headers: {'Content-Type': 'application/json'});
-    }
+    } //end if
 
     // error check
     bool hasError = true;
@@ -263,15 +264,18 @@ class UserModel extends ConnectedProductsModel {
       message = 'Authentication succeeded';
       // new user if successful
       _authenticatedUser = User(
-        id: responseData['localId'],
-        email: email,
-        token: responseData['idToken'],
-      );
+          id: responseData['localId'],
+          email: email,
+          token: responseData['idToken']);
+      setAuthTimeout(int.parse(responseData['expiresIn']));
+      final now = DateTime.now();
+      final DateTime expiryTime = now.add(Duration(seconds: int.parse(responseData['expiresIn'])));
       // shared prefs for storing local
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', responseData['idToken']);
       prefs.setString('userEmail', email);
       prefs.setString('userId', responseData['localId']);
+      prefs.setString('expiryTime', expiryTime.toIso8601String());
     } else if (responseData['error']['message'] == 'EMAIL_NOT_EXISTS') {
       message = 'This email was not found.';
     } else if (responseData['error']['message'] == 'INVALID_PASSWORD') {
@@ -280,34 +284,49 @@ class UserModel extends ConnectedProductsModel {
       message = 'This email already exists.';
     } else {
       message = 'Something went wrong.';
-    }
+    } //end if
     print(responseData);
     _isLoading = false;
     notifyListeners();
     return {'success': !hasError, 'message': message};
-  }
+  } //end func
 
   void autoAuthenticate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token');
+    final expiryTimeString = prefs.getString('expiryTime');
     if (token != null) {
+      final DateTime now = DateTime.now();
+      final parsedExpiryTime = DateTime.parse(expiryTimeString);
+      if(parsedExpiryTime.isBefore(now)){
+        _authenticatedUser = null;
+        return;
+      }//end if
       final String userEmail = prefs.getString('userEmail');
       final String userId = prefs.getString('userId');
+      final int tokenLifespan = parsedExpiryTime.difference(now).inMilliseconds;
       _authenticatedUser = User(id: userId, email: userEmail, token: token);
+      setAuthTimeout(tokenLifespan);
       notifyListeners();
-    }
-  }
+    }//end if
+  }//end func
 
   void logout() async {
+    print('Logout');
     _authenticatedUser = null;
+    _authTimer.cancel();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.clear();
     // or do it individually
     prefs.remove('token');
     prefs.remove('userEmail');
     prefs.remove('userId');
-  }
-}
+  }//end func
+
+  void setAuthTimeout(int time) {
+    _authTimer = Timer(Duration(seconds: time * 5), logout);
+  }//end func
+}//end class
 
 class UtilityModel extends ConnectedProductsModel {
   bool get isLoading => _isLoading;
