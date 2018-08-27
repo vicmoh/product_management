@@ -141,7 +141,7 @@ class ProductsModel extends ConnectedProductsModel {
         _isLoading = false;
         notifyListeners();
         return;
-      }
+      }//end if
 
       productListData.forEach((String productId, dynamic productData) {
         final Product product = Product(
@@ -163,7 +163,7 @@ class ProductsModel extends ConnectedProductsModel {
       notifyListeners();
       return;
     });
-  }
+  }//end func
 
   void toggleProductFavoriteStatus() {
     final bool isCurrentlyFavorite = _products[selectedProductIndex].isFavorite;
