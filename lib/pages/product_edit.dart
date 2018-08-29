@@ -23,10 +23,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
     'image': 'assets/food.jpg'
   };
 
-  //------------------------------------------
-  // setter functions
-  //------------------------------------------
-
   _setTitle(String value) {
     this._formData['title'] = value;
   }
@@ -38,10 +34,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
   _setPrice(String value) {
     this._formData['price'] = double.tryParse(value);
   }
-
-  //------------------------------------------
-  // validator functions
-  //------------------------------------------
 
   String _validateString(String value) {
     if (value.isEmpty) {
@@ -58,10 +50,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
       return null;
     }
   }
-
-  //------------------------------------------
-  // widget functions
-  //------------------------------------------
 
   // popup modal from bottom
   Widget _modalShowCase(BuildContext context) {
