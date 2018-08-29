@@ -96,15 +96,18 @@ class _ProductEditPageState extends State<ProductEditPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       // return widget
       return model.isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : Container(
               padding: EdgeInsets.only(top: 15.0),
               child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Theme.of(context).accentColor,
-                  child: Text("Save"),
-                  onPressed: () =>
-                      _submitForm(model.addProduct, model, context)));
+                textColor: Colors.white,
+                color: Theme.of(context).accentColor,
+                child: Text("Save"),
+                onPressed: () => _submitForm(model.addProduct, model, context),
+              ),
+            );
     } //end model
         );
   } //end build submit button func
