@@ -335,7 +335,7 @@ class UserModel extends ConnectedProductsModel {
 
   /// set auth timeout which will logout 
   void setAuthTimeout(int time) {
-    _authTimer = Timer(Duration(seconds: time * 2), (){
+    _authTimer = Timer(Duration(seconds: time), (){
       logout();
       _userSubject.add(false);
     });
