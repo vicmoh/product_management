@@ -27,13 +27,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   final MainModel _model = MainModel();
+  bool _isAuthenticated = false;
 
   @override
   void initState() {
     // TODO: implement initState
     _model.autoAuthenticate();
+    _model.userSubject.listen((bool isAuthenticated){
+      _isAuthenticated = isAuthenticated;
+    });
     super.initState();
   }
 

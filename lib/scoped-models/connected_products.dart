@@ -324,6 +324,7 @@ class UserModel extends ConnectedProductsModel {
     prefs.remove('token');
     prefs.remove('userEmail');
     prefs.remove('userId');
+    _userSubject.add(false);
   }//end func
 
   void setAuthTimeout(int time) {
