@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:async';
 import '../scoped-models/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rxdart/subjects.dart';
 
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
@@ -229,9 +230,11 @@ class ProductsModel extends ConnectedProductsModel {
 
 class UserModel extends ConnectedProductsModel {
   Timer _authTimer;
-  
+  PublishSubject<bool> _userSubject = PublishSubject();
 
   User get user => _authenticatedUser;
+
+  PublishSubject<bool> get userSubject => _userSubject;
 
   Future<Map<String, dynamic>> authenticate(String email, String password,
       [AuthMode mode = AuthMode.Login]) async {
