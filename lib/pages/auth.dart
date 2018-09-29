@@ -13,6 +13,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<StatefulWidget> {
+  // dec instances
   GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   var _loginData = {'email': '', 'password': '', 'acceptTerm': false};
   final _emailController = TextEditingController();
@@ -20,14 +21,18 @@ class _AuthPageState extends State<StatefulWidget> {
   final _confirmPassController = TextEditingController();
   AuthMode _authMode = AuthMode.Login;
 
+  /// set email
   _setEmail(String value) {
     this._loginData['email'] = value;
   }
 
+  /// set password
   _setPassword(String value) {
     this._loginData['password'] = value;
   }
 
+  /// validate strings, if it is ok it will return
+  /// null, else it will return a feedback
   String _validateRequiredString(String toBeValidate) {
     if (toBeValidate.isEmpty) {
       return 'Required';
@@ -36,6 +41,8 @@ class _AuthPageState extends State<StatefulWidget> {
     }
   }
 
+  /// validate email, if it is ok it will return
+  /// null, else it will return a feedback
   String _validateEmail(String toBeValidate) {
     if (_emailController.text != toBeValidate) {
       return 'Please enter a valid email';
@@ -43,6 +50,8 @@ class _AuthPageState extends State<StatefulWidget> {
     return null;
   }
 
+  /// validate pass, if it is ok it will return
+  /// null, else it will return a feedback
   String _validatePass(String toBeValidate) {
     if (_passController.text != toBeValidate) {
       return 'Password is invalid';
@@ -50,13 +59,14 @@ class _AuthPageState extends State<StatefulWidget> {
     return null;
   }
 
+  /// submit a loginfunctions on auth page
   void _submitLogin(Function authenticate) async {
     if (!_loginKey.currentState.validate()) {
       return;
     } //end if
     _loginKey.currentState.save();
 
-    // when signup page
+    // when signup page and acceptrm is not true
     if (_loginData['acceptTerm'] == false && _authMode == AuthMode.Signup) {
       // term condition
       print("show alert:");
@@ -82,7 +92,7 @@ class _AuthPageState extends State<StatefulWidget> {
 
     // when success
     if (successInformation['success']) {
-      Navigator.pushReplacementNamed(context, '/products');
+      // Navigator.pushReplacementNamed(context, '/products');
     } else {
       showDialog(
           context: context,
@@ -134,21 +144,22 @@ class _AuthPageState extends State<StatefulWidget> {
         _authMode == AuthMode.Login ? "Sign Up Page" : "Login Page";
 
     return Form(
-        key: _loginKey,
-        child: GestureDetector(
-            onTap: () {
-              // put keyboard down onces done
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: Container(
-                // imaage bakcground
-                decoration: BoxDecoration(image: _buildBackgroundImage()),
-                padding: EdgeInsets.all(15.0),
+      key: _loginKey,
+      child: GestureDetector(
+        onTap: () {
+          // put keyboard down onces done
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          // imaage bakcground
+          decoration: BoxDecoration(image: _buildBackgroundImage()),
+          padding: EdgeInsets.all(15.0),
 
-                // the login container
-                child: Center(
-                    child: SingleChildScrollView(
-                        child: Column(children: <Widget>[
+          // the login container
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
                   // username
                   _buildTextField("Email", false, _setEmail, _validateEmail,
                       _emailController),
@@ -216,7 +227,13 @@ class _AuthPageState extends State<StatefulWidget> {
                           ],
                         ));
                   }),
-                ]))))));
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   } //login container
 
   @override
@@ -224,5 +241,5 @@ class _AuthPageState extends State<StatefulWidget> {
     return Scaffold(
         // body
         body: _loginContainer());
-  }
-}
+  } //end build
+} //end class

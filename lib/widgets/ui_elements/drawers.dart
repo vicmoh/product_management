@@ -27,7 +27,7 @@ class MenuDrawer extends StatelessWidget {
             automaticallyImplyLeading: false,
           ),
           _menuButton(Icons.edit, "Manage Product", '/admin'),
-          _menuButton(Icons.shop, "Products", '/products'),
+          _menuButton(Icons.shop, "Products", '/'),
           Divider(),
           LogoutListTile(),
         ],

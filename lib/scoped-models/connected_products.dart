@@ -229,13 +229,15 @@ class ProductsModel extends ConnectedProductsModel {
 } //end class
 
 class UserModel extends ConnectedProductsModel {
+  //dec instance
   Timer _authTimer;
   PublishSubject<bool> _userSubject = PublishSubject();
 
+  // getters
   User get user => _authenticatedUser;
-
   PublishSubject<bool> get userSubject => _userSubject;
 
+  /// the email and password
   Future<Map<String, dynamic>> authenticate(String email, String password,
       [AuthMode mode = AuthMode.Login]) async {
     _isLoading = true;
@@ -273,6 +275,7 @@ class UserModel extends ConnectedProductsModel {
       setAuthTimeout(int.parse(responseData['expiresIn']));
       final now = DateTime.now();
       final DateTime expiryTime = now.add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      _userSubject.add(true);
       // shared prefs for storing local
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', responseData['idToken']);
@@ -294,6 +297,7 @@ class UserModel extends ConnectedProductsModel {
     return {'success': !hasError, 'message': message};
   } //end func
 
+  /// auto authenticate when open is open
   void autoAuthenticate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token');
@@ -309,11 +313,13 @@ class UserModel extends ConnectedProductsModel {
       final String userId = prefs.getString('userId');
       final int tokenLifespan = parsedExpiryTime.difference(now).inMilliseconds;
       _authenticatedUser = User(id: userId, email: userEmail, token: token);
+      _userSubject.add(true);
       setAuthTimeout(tokenLifespan);
       notifyListeners();
     }//end if
   }//end func
 
+  /// logout the user
   void logout() async {
     print('Logout');
     _authenticatedUser = null;
@@ -327,8 +333,12 @@ class UserModel extends ConnectedProductsModel {
     _userSubject.add(false);
   }//end func
 
+  /// set auth timeout which will logout 
   void setAuthTimeout(int time) {
-    _authTimer = Timer(Duration(seconds: time * 5), logout);
+    _authTimer = Timer(Duration(seconds: time * 2), (){
+      logout();
+      _userSubject.add(false);
+    });
   }//end func
 }//end class
 
