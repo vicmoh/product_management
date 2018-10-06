@@ -92,7 +92,7 @@ class _AuthPageState extends State<StatefulWidget> {
 
     // when success
     if (successInformation['success']) {
-      // Navigator.pushReplacementNamed(context, '/products');
+      Navigator.pushReplacementNamed(context, '/products');
     } else {
       showDialog(
           context: context,

@@ -324,6 +324,7 @@ class UserModel extends ConnectedProductsModel {
     print('Logout');
     _authenticatedUser = null;
     _authTimer.cancel();
+    _userSubject.add(false);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.clear();
     // or do it individually
@@ -337,7 +338,7 @@ class UserModel extends ConnectedProductsModel {
   void setAuthTimeout(int time) {
     _authTimer = Timer(Duration(seconds: time), (){
       logout();
-      _userSubject.add(false);
+      // _userSubject.add(false);
     });
   }//end func
 }//end class
