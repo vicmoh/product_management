@@ -184,6 +184,7 @@ class ProductsModel extends ConnectedProductsModel {
     notifyListeners();
     http.Response response;
 
+    // add wishlist to database
     if (newFavoriteStatus) {
       response = await http.put(
           'https://flutter-products-20260.firebaseio.com/products/' +
