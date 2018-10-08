@@ -166,9 +166,10 @@ class ProductsModel extends ConnectedProductsModel {
     });
   } //end func
 
-  void toggleProductFavoriteStatus() {
+  void toggleProductFavoriteStatus() async {
     final bool isCurrentlyFavorite = _products[selectedProductIndex].isFavorite;
     final bool newFavoriteStatus = !isCurrentlyFavorite;
+
     final Product updateProdcut = Product(
         id: selectedProduct.id,
         title: selectedProduct.title,
@@ -181,14 +182,40 @@ class ProductsModel extends ConnectedProductsModel {
     _products[selectedProductIndex] = updateProdcut;
     // update and refresh: it re-render the page
     notifyListeners();
+    http.Response response;
+
+    if (newFavoriteStatus) {
+      response = await http.put(
+          'https://flutter-products-20260.firebaseio.com/products/' +
+              '${selectedProduct.id}/wishlistUsers/${_authenticatedUser.id}.json?auth=${_authenticatedUser.token}',
+          body: json.encode(true));
+    } else {
+      await http.delete('https://flutter-products-20260.firebaseio.com/products/' +
+          '${selectedProduct.id}/wishlistUsers/${_authenticatedUser.id}.json?auth=${_authenticatedUser.token}');
+    } //end if
+    if (response.statusCode != 200 && response.statusCode != 201) {
+        // error handling ...
+        final Product updateProdcut = Product(
+            id: selectedProduct.id,
+            title: selectedProduct.title,
+            description: selectedProduct.description,
+            price: selectedProduct.price,
+            image: selectedProduct.image,
+            userEmail: selectedProduct.userEmail,
+            userId: selectedProduct.userId,
+            isFavorite: newFavoriteStatus);
+        _products[selectedProductIndex] = updateProdcut;
+        // update and refresh: it re-render the page
+        notifyListeners();
+      } //end if
   } //end func
 
   void toggleDisplayMode() {
     _showFavorites = !_showFavorites;
     // update and refresh: it re-render the page
     this.selectProduct(null);
-    notifyListeners();  
-  }//end func
+    notifyListeners();
+  } //end func
 
   Future<bool> updateProduct(
       String title, String description, String image, double price) {
@@ -274,7 +301,8 @@ class UserModel extends ConnectedProductsModel {
           token: responseData['idToken']);
       setAuthTimeout(int.parse(responseData['expiresIn']));
       final now = DateTime.now();
-      final DateTime expiryTime = now.add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      final DateTime expiryTime =
+          now.add(Duration(seconds: int.parse(responseData['expiresIn'])));
       _userSubject.add(true);
       // shared prefs for storing local
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -305,10 +333,10 @@ class UserModel extends ConnectedProductsModel {
     if (token != null) {
       final DateTime now = DateTime.now();
       final parsedExpiryTime = DateTime.parse(expiryTimeString);
-      if(parsedExpiryTime.isBefore(now)){
+      if (parsedExpiryTime.isBefore(now)) {
         _authenticatedUser = null;
         return;
-      }//end if
+      } //end if
       final String userEmail = prefs.getString('userEmail');
       final String userId = prefs.getString('userId');
       final int tokenLifespan = parsedExpiryTime.difference(now).inMilliseconds;
@@ -316,8 +344,8 @@ class UserModel extends ConnectedProductsModel {
       _userSubject.add(true);
       setAuthTimeout(tokenLifespan);
       notifyListeners();
-    }//end if
-  }//end func
+    } //end if
+  } //end func
 
   /// logout the user
   void logout() async {
@@ -332,16 +360,16 @@ class UserModel extends ConnectedProductsModel {
     prefs.remove('userEmail');
     prefs.remove('userId');
     _userSubject.add(false);
-  }//end func
+  } //end func
 
-  /// set auth timeout which will logout 
+  /// set auth timeout which will logout
   void setAuthTimeout(int time) {
-    _authTimer = Timer(Duration(seconds: time), (){
+    _authTimer = Timer(Duration(seconds: time), () {
       logout();
       // _userSubject.add(false);
     });
-  }//end func
-}//end class
+  } //end func
+} //end class
 
 class UtilityModel extends ConnectedProductsModel {
   bool get isLoading => _isLoading;
