@@ -187,8 +187,8 @@ class ProductsModel extends ConnectedProductsModel {
     _showFavorites = !_showFavorites;
     // update and refresh: it re-render the page
     this.selectProduct(null);
-    notifyListeners();
-  }
+    notifyListeners();  
+  }//end func
 
   Future<bool> updateProduct(
       String title, String description, String image, double price) {
