@@ -124,7 +124,7 @@ class ProductsModel extends ConnectedProductsModel {
     });
   } //end func
 
-  Future<Null> fetchProducts() {
+  Future<Null> fetchProducts({onlyForUser = false}) {
     _isLoading = true;
     return http
         .get(
@@ -161,7 +161,9 @@ class ProductsModel extends ConnectedProductsModel {
         fetchedProductList.add(product);
         print('wishlistUsers containskey = ' + _authenticatedUser.id);
       });
-      _products = fetchedProductList;
+      _products = onlyForUser ? fetchedProductList.where((Product product){
+        return product.userId == _authenticatedUser.id;
+      }).toList() : fetchedProductList;
       _isLoading = false;
       notifyListeners();
       _selProductId = null;
