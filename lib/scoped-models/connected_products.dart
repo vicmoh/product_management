@@ -146,16 +146,20 @@ class ProductsModel extends ConnectedProductsModel {
 
       productListData.forEach((String productId, dynamic productData) {
         final Product product = Product(
-            id: productId,
-            title: productData['title'],
-            description: productData['description'],
-            image: productData['image'],
-            price: productData['price'],
-            userEmail: productData['userEmail'],
-            userId: productData['userId'],
-            isFavorite: (productData['wishlistUsers'] as Map<String, dynamic>)
-              .containsKey(_authenticatedUser.id));
+          id: productId,
+          title: productData['title'],
+          description: productData['description'],
+          image: productData['image'],
+          price: productData['price'],
+          userEmail: productData['userEmail'],
+          userId: productData['userId'],
+          isFavorite: productData['wishlistUsers'] == null
+              ? false
+              : (productData['wishlistUsers'] as Map<String, dynamic>)
+                  .containsKey(_authenticatedUser.id),
+        );
         fetchedProductList.add(product);
+        print('wishlistUsers containskey = ' + _authenticatedUser.id);
       });
       _products = fetchedProductList;
       _isLoading = false;
@@ -197,20 +201,20 @@ class ProductsModel extends ConnectedProductsModel {
           '${selectedProduct.id}/wishlistUsers/${_authenticatedUser.id}.json?auth=${_authenticatedUser.token}');
     } //end if
     if (response.statusCode != 200 && response.statusCode != 201) {
-        // error handling ...
-        final Product updateProdcut = Product(
-            id: selectedProduct.id,
-            title: selectedProduct.title,
-            description: selectedProduct.description,
-            price: selectedProduct.price,
-            image: selectedProduct.image,
-            userEmail: selectedProduct.userEmail,
-            userId: selectedProduct.userId,
-            isFavorite: newFavoriteStatus);
-        _products[selectedProductIndex] = updateProdcut;
-        // update and refresh: it re-render the page
-        notifyListeners();
-      } //end if
+      // error handling ...
+      final Product updateProdcut = Product(
+          id: selectedProduct.id,
+          title: selectedProduct.title,
+          description: selectedProduct.description,
+          price: selectedProduct.price,
+          image: selectedProduct.image,
+          userEmail: selectedProduct.userEmail,
+          userId: selectedProduct.userId,
+          isFavorite: newFavoriteStatus);
+      _products[selectedProductIndex] = updateProdcut;
+      // update and refresh: it re-render the page
+      notifyListeners();
+    } //end if
   } //end func
 
   void toggleDisplayMode() {
