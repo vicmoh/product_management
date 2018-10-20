@@ -336,6 +336,7 @@ class UserModel extends ConnectedProductsModel {
 
   /// auto authenticate when open is open
   void autoAuthenticate() async {
+    print('autoAuthenticate()');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString('token');
     final expiryTimeString = prefs.getString('expiryTime');
